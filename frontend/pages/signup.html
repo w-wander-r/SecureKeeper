@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureKeeper</title>
+  <link rel="stylesheet" href="../src/components/main.css">
+  <link rel="stylesheet" href="../src/assets/fonts/K2D/stylesheet.css">
+</head>
+<body>
+  
+  <section class="signup">
+    <div class="container">
+      <div class="signup-head">
+        <img src="../src/assets/images/icons/logo.svg" alt="" id="logo" class="logo">
+        <h3 class="signup__title">Sign up to SecureKeeper</h3>
+      </div>
+
+      <div class="signup-form">
+        <form action="#" method="post" class="signup-form__form">
+          <!-- Field for username -->
+          <label for="username" class="signup-form__label">Username</label>
+          <input type="text" id="username" name="username" class="signup-form__input" placeholder="Enter username" required>
+    
+          <!-- Field for email -->
+          <label for="email" class="signup-form__label">Email</label>
+          <input type="email" id="email" name="email" class="signup-form__input" placeholder="Enter email" required>
+    
+          <!-- Field for password -->
+          <label for="password" class="signup-form__label">Password</label>
+          <input type="password" id="password" name="password" class="signup-form__input" placeholder="Enter password" required>
+    
+          <!-- Sign up button -->
+          <button type="submit" class="signup-form__button">Sign up</button>
+        </form>
+
+        <div class="or">Or</div>
+
+        <!-- Login button -->
+        <a href="./login.html" class="login-form__account-signin">
+          <svg width="21" height="21" viewBox="0 0 21 21" class="login-icon" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 21V18.6667H18.6667V2.33333H10.5V0H18.6667C19.3083 0 19.8578 0.228667 20.3152 0.686C20.7725 1.14333 21.0008 1.69244 21 2.33333V18.6667C21 19.3083 20.7717 19.8578 20.3152 20.3152C19.8586 20.7725 19.3091 21.0008 18.6667 21H10.5ZM8.16667 16.3333L6.5625 14.6417L9.5375 11.6667H0V9.33333H9.5375L6.5625 6.35833L8.16667 4.66667L14 10.5L8.16667 16.3333Z" fill="white" />
+          </svg>
+
+          Login
+        </a>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
