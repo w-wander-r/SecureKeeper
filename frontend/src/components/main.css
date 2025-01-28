@@ -114,7 +114,7 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 90vh;
   margin: 0;
 }
 
