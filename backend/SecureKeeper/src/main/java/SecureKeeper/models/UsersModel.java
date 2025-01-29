@@ -17,6 +17,9 @@ public class UsersModel {
     private String username;
     private String password;
     
+    public UsersModel() {
+    }
+
     public UsersModel(Long id, String username, String password) {
         this.id = id;
         this.username = username;
