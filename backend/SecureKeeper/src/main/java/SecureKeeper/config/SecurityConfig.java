@@ -3,9 +3,11 @@ package SecureKeeper.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,10 +32,11 @@ public class SecurityConfig {
         return http
             // .csrf(customizer -> customizer.disable()) down bellow with method reference
             .csrf(AbstractHttpConfigurer::disable)
-            // every request shold be authenticated
-            .authorizeHttpRequests(request -> request.anyRequest().authenticated())
-            // login form for browser
-            .formLogin(Customizer.withDefaults())
+            // every request shold be authenticated except register and login page
+            .authorizeHttpRequests(request -> request
+                .requestMatchers("register", "login")
+                .permitAll()
+                .anyRequest().authenticated())
             // login form for postman
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -63,5 +66,12 @@ public class SecurityConfig {
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         provider.setUserDetailsService(userDetailsService);
         return provider;
+    }
+
+
+    // overriding login logic
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }
