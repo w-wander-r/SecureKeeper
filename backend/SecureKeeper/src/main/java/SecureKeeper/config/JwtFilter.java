@@ -31,6 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         
+        // Authorization contains value as "Bearer {token}"
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
@@ -41,6 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
             username = jwtService.extractUserName(token);
         }
 
+        // validating token
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = context.getBean(OwnUserDetailsService.class).loadUserByUsername(username);
             if(jwtService.validateToken(token, userDetails)) {

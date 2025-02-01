@@ -8,9 +8,9 @@
 		<version>3.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.wander</groupId>
 	<artifactId>SecureKeeper</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>SecureKeeper</name>
 	<description></description>
 	<url/>

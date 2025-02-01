@@ -22,7 +22,7 @@ import SecureKeeper.service.OwnUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig {
     
-    // UserDetailsService
+    // overriden UserDetailsService
     @Autowired
     private OwnUserDetailsService userDetailsService;
 
@@ -32,7 +32,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         
-        // not working at browsers since `sessionManagment`, every request shold be sent with credentials
         return http
             // .csrf(customizer -> customizer.disable()) down bellow with method reference
             .csrf(AbstractHttpConfigurer::disable)
@@ -41,29 +40,14 @@ public class SecurityConfig {
                 .requestMatchers("register", "login")
                 .permitAll()
                 .anyRequest().authenticated())
-            // login form for postman
             .httpBasic(Customizer.withDefaults())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+            // jwtFilter check if token in valid :: validator -> userAuth
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
 
-    // rewriting user details service
-    // hardcoded values
-    // @Bean
-    // public UserDetailsService userDetailsService() {
-
-    //     UserDetails user1 = User
-    //         .withDefaultPasswordEncoder()
-    //         .username("root")
-    //         .password("root")
-    //         .roles("USER")
-    //         .build();
-
-    //     return new InMemoryUserDetailsManager(user1);
-    // }
-
-    // taking data from db
+    // fething data from db
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -72,7 +56,6 @@ public class SecurityConfig {
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
-
 
     // overriding login logic
     @Bean
