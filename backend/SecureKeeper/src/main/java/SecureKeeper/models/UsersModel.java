@@ -16,10 +16,10 @@ public class UsersModel {
 
     private String username;
     private String password;
-
+    
     public UsersModel() {
     }
-    
+
     public UsersModel(Long id, String username, String password) {
         this.id = id;
         this.username = username;
@@ -43,5 +43,10 @@ public class UsersModel {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "UsersModel [id=" + id + ", username=" + username + ", password=" + password + "]";
     }
 }
