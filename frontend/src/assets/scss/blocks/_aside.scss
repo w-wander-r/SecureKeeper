@@ -1,0 +1,61 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  background-color: $bg-white-color;
+  max-width: 100px;
+  height: 100%;
+
+  padding: 0 20px;
+}
+
+.aside__folders {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 50px;
+
+  .aside-folder {
+    &:not(:last-child) {
+      margin-bottom: 25px;
+    }
+  }
+}
+
+.aside-folder {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -35%;
+    top: 6px;
+    border-radius: 0 5px 5px 0;
+    width: 7px;
+    height: 40px;
+    background: $green;
+    transform: scaleY(0);
+    transition: transform 0.3s ease-in-out; /* Smoth animation */
+  }
+  
+  &.active::before {
+    transform: scaleY(1);
+  }
+}
+
+.aside-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    margin-bottom: 5px;
+  }
+
+  span {
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 500;
+  }
+}

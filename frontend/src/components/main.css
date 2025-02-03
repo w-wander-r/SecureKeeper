@@ -198,3 +198,94 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   justify-content: center;
   gap: 10px;
 }
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(204, 204, 204, 0.08);
+  max-width: 100px;
+  height: 100%;
+  padding: 0 20px;
+}
+
+.aside__folders {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+.aside__folders .aside-folder:not(:last-child) {
+  margin-bottom: 25px;
+}
+
+.aside-folder {
+  position: relative;
+}
+.aside-folder::before {
+  content: "";
+  position: absolute;
+  left: -35%;
+  top: 6px;
+  border-radius: 0 5px 5px 0;
+  width: 7px;
+  height: 40px;
+  background: rgb(32, 130, 50);
+  transform: scaleY(0);
+  transition: transform 0.3s ease-in-out; /* Smoth animation */
+}
+.aside-folder.active::before {
+  transform: scaleY(1);
+}
+
+.aside-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.aside-item img {
+  margin-bottom: 5px;
+}
+.aside-item span {
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: rgba(204, 204, 204, 0.08);
+  width: 100%;
+  height: 100px;
+  padding-inline: 25px;
+}
+
+.logo {
+  width: 50px;
+  height: 64px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  margin-left: 75px;
+}
+.nav-item {
+  transition: all 0.3s;
+}
+.nav-item:hover {
+  opacity: 0.8;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+}
+.user-avatar {
+  margin-bottom: 5px;
+  width: 40px;
+}

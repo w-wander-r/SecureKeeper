@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SecureKeeper - is service, where your can save your passwords, emails, usernames, etc."> <!-- Short desc -->
+  <meta name="author" content="Hostel #3"> <!-- Authors -->
+  <title>SecureKeeper</title>
+  <link rel="icon" type="image/png" href="../src/assets/images/favicon/web-app-manifest-192x192.png" sizes="96x96" />
+  <link rel="stylesheet" href="../src/components/main.css">
+  <link rel="stylesheet" href="../src/assets/fonts/K2D/stylesheet.css">
+</head>
+<body>
+
+  <header class="header">
+    <!-- Logo -->
+    <img src="../src/assets/images/icons/logo.svg" alt="" class="logo">
+
+    <ul class="nav">
+      <li class="nav-item"><a href="#" id="popup">Main</a></li>
+      <li class="nav-item"><a href="#" id="popup">About us</a></li>
+      <li class="nav-item"><a href="#" id="popup">Contacts</a></li>
+      <li class="nav-item"><a href="#" id="popup">Settings</a></li>
+    </ul>
+
+    <div class="user">
+      <img src="../src/assets/images/header/userProfile-icon.svg" alt="" class="user-avatar">
+
+      <span class="user-name">User Userovich</span>
+    </div>
+  </header>
+  
+  <aside class="sidebar">
+    <!-- Aside folders -->
+    <ul id="aside-folders" class="aside__folders">
+      <button class="aside-folder aside-item active">
+        <img src="../src/assets/images/sidebar/folder-icon.svg" alt="folder" class="folder__icon">
+  
+        <span class="folder__name">Default</span>
+      </button>
+  
+      <button class="aside-create__new-folder aside-item">
+        <img src="../src/assets/images/sidebar/newFolder-icon.svg" alt="new folder" class="new-folder__icon">
+  
+        <span class="new-folder">New Folder</span>
+      </button>
+    </ul>
+  </aside>
+
+
+  <script type="module" src="../src/components/main.js"></script>
+
+</body>
+</html>

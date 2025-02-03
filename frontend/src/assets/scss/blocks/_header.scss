@@ -1,0 +1,45 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  background-color: $bg-white-color;
+  width: 100%;
+  height: 100px;
+  padding-inline: 25px;
+}
+
+.logo {
+  width: 50px;
+  height: 64px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+
+  margin-left: 75px;
+
+  &-item {
+    transition: all .3s;
+  }
+
+  &-item:hover {
+    opacity: .8;
+  }
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-left: auto;
+
+  &-avatar {
+    margin-bottom: 5px;
+
+    width: 40px;
+  }
+}
