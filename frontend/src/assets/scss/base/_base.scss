@@ -12,6 +12,14 @@ body, html {
   background-color: $bg-color;
 }
 
+.page {
+  display: grid;
+  grid-template-rows: max-content 1fr; /* Перша рядка для хедера, друга для меню і контенту */
+  grid-template-columns: max-content 1fr; /* Перша колонка для меню, друга для контенту */
+  grid-template-areas: "header header" "sidebar content"; /* Хедер буде зверху на дві колонки */
+  height: 100vh; /* Сторінка на всю висоту */
+}
+
 .container {
   width: fit-content;
   padding-inline: 15px;

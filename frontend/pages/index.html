@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../src/components/main.css">
   <link rel="stylesheet" href="../src/assets/fonts/K2D/stylesheet.css">
 </head>
-<body>
+<body class="page">
 
   <header class="header">
     <!-- Logo -->
@@ -47,6 +47,65 @@
     </ul>
   </aside>
 
+  <section class="content">
+    <div class="conteiner">
+      <ul id="cards_container" class="cards">
+        <button class="card card-wrap">
+          <h3 class="card__title">Note Name</h3>
+  
+          <div class="card__userdata">
+            <div class="email">
+              <span class="placeholder">Email:</span>
+              <p class="user-data">testgitler123@gmail.com</p>
+            </div>
+    
+            <div class="password">
+              <span class="placeholder">Password:</span>
+              <p class="user-data">Gitler228Stalin</p>
+            </div>
+          </div>
+        </button>
+
+        <button id="create__new-card" class="create__new-card card">
+          <svg width="50" height="50" viewBox="0 0 50 50" class="create" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="25" cy="25" r="25" fill="#CCCCCC" fill-opacity="0.08" />
+            <rect x="22.5" y="15" width="5" height="20" rx="2.5" fill="#1D2543" />
+            <rect x="23" y="15.5" width="4" height="19" rx="2" stroke="#CCCCCC" stroke-opacity="0.25" />
+            <rect x="35" y="22.5" width="5" height="20" rx="2.5" transform="rotate(90 35 22.5)" fill="#1D2543" />
+            <rect x="34.5" y="23" width="4" height="19" rx="2" transform="rotate(90 34.5 23)" stroke="#CCCCCC" stroke-opacity="0.25" />
+            <rect x="23.5" y="22" width="3" height="6" fill="#1D2543" />
+          </svg>
+        </button>
+      </ul>
+    </div>
+  </section>
+
+  <div id="popup" class="create__new-card_popup">
+    <div class="popup__body">
+      <div class="popup__content card-wrap">
+        <a href="" class="popup__close">X</a>
+
+        <input class="popup__title" placeholder="Enter card name:"></input>
+        
+        <div class="userdata">
+          <div class="userlogin">
+            <label class="placeholder">Login:</label>
+            <input type="text" class="user__input user__input-login" placeholder="Enter your login:" maxlength="12">
+          </div>
+
+          <div class="email">
+            <label class="placeholder">Email:</label>
+            <input type="email" class="user__input user__input-email" placeholder="Enter your email:" maxlength="25">
+          </div>
+  
+          <div class="password">
+            <label class="placeholder">Password:</label>
+            <input type="password" class="user__input user__input-password" placeholder="Enter your password:" maxlength="30">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="../src/components/main.js"></script>
 
