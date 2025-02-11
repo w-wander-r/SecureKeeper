@@ -17,4 +17,8 @@ public class FolderService {
     public List<FolderModel> getFoldersByUserId(Long userId) {
         return folderRepo.findByUserId(userId);
     }
+
+    public FolderModel createFolderModel(FolderModel folderModel) {
+        return folderRepo.save(folderModel);
+    }
 }

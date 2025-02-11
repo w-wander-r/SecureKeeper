@@ -14,7 +14,13 @@ public class NoteService {
     @Autowired
     private NoteRepo noteRepo;
 
+    // getting notes
     public List<NoteModel> getNotesByFolderId(Long folderid) {
         return noteRepo.findByFolderId(folderid);
+    }
+
+    // posting notes
+    public NoteModel createNoteModel(NoteModel noteModel) {
+        return noteRepo.save(noteModel);
     }
 }

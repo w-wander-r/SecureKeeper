@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import SecureKeeper.models.FolderModel;
@@ -20,5 +22,11 @@ public class FolderController {
     @GetMapping("api/users/{userId}/folders")
     public List<FolderModel> getUserFolders(@PathVariable Long userId) {
         return folderService.getFoldersByUserId(userId);
+    }
+
+    // endpoint to post folder
+    @PostMapping("api/users/{userId}/folders")
+    public FolderModel createFolder(@RequestBody FolderModel folderModel) {
+        return folderService.createFolderModel(folderModel);
     }
 }
