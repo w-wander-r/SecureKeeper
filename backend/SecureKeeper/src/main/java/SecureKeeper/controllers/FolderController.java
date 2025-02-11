@@ -17,7 +17,7 @@ public class FolderController {
     private FolderService folderService;
 
     // endpoint to get all folders for a user
-    @GetMapping("/users/{userId}/folders")
+    @GetMapping("api/users/{userId}/folders")
     public List<FolderModel> getUserFolders(@PathVariable Long userId) {
         return folderService.getFoldersByUserId(userId);
     }

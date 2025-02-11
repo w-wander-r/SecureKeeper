@@ -18,7 +18,7 @@ public class NoteController {
     private NoteService noteService;
 
     // endpoint get all notes from a folder
-    @GetMapping("/folders/{folderId}/notes")
+    @GetMapping("api/folders/{folderId}/notes")
     public List<NoteModel> getNotesByFolder(@PathVariable Long folderId) {
         return noteService.getNotesByFolderId(folderId);
     }
