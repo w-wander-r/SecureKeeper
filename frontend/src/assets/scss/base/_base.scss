@@ -12,6 +12,10 @@ body, html {
   background-color: $bg-color;
 }
 
+body.lock {
+  overflow: hidden;
+}
+
 .page {
   display: grid;
   grid-template-rows: max-content 1fr; /* Перша рядка для хедера, друга для меню і контенту */
@@ -31,6 +35,6 @@ button, .signup-form__account-signin, .login-form__account-signin {
 
   transition: all .3s;
   &:hover {
-    opacity: .8;
+    opacity: .9;
   }
 }

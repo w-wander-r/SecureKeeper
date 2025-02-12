@@ -4,14 +4,14 @@
   grid-area: content;
 }
 
-.cards {
+.notes {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 50px;
 }
 
-.card {
+.note {
   width: 300px;
   height: 150px;
   padding: 15px;
@@ -24,13 +24,41 @@
     text-align: start;
   }
 
-  &__title {
+  
+
+  &__data {
+    user-select: text;
+
+    margin-top: auto;
+
+    &-wrap {
+      display: flex;
+      flex-direction: row;
+      align-items: end;
+      gap: 5px;
+    }
+  }
+}
+
+.note__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  width: 100%;
+
+  &-title {
+    user-select: text;
+    
     font-weight: 600;
     font-size: 16px;
   }
 
-  &__userdata {
-    margin-top: auto;
+  &-tooltip .tooltiptext {
+    width: 150px;
+
+    top: 0%;
+    right: 150%;
   }
 }
 
@@ -44,92 +72,13 @@
   font-size: 12px;
 }
 
-.password {
-  margin-top: 5px;
-}
-
-
-
-.create__new-card_popup {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba($color: #000000, $alpha: .8);
-
-  opacity: 0;
-  visibility: hidden;
-}
-
-.popup__body {
+.create__new-note {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  min-height: 100vh;
-  padding: 30px 10px;
-}
-
-.popup__content {
-  position: relative;
-
-  width: 600px;
-  height: 300px;
-
-  border-radius: 10px;
-  background-color: $card-color;
-
-  padding: 15px;
-}
-
-.popup__close {
-  position: absolute;
-
-  right: 15px;
-  top: 15px;
-
-  font-weight: 600;
-  font-size: 20px;
-}
-
-.popup__title {
-  font-weight: 600;
-  font-size: 20px;
-}
-
-.userdata {
-  .userlogin, .email, .password {
-    display: flex;
-    flex-direction: column;
-  }
-
-  margin-top: auto;
-  
-  .user__input {
-    min-width: 100px;
-    height: 30px;
-
-    // border: 1px solid $form-stroke;
-    // border-radius: 5px;
-    // background-color: $bg-color;
-
-    // padding: 5px 7px;
-
-    &-login {
-      width: 120px;
-    }
-  }
-
-  .placeholder {
-    font-weight: 500;
-    font-size: 18px;
-  }
-
-  .user-data {
-    font-weight: 400;
-    font-size: 14px;
-  }
-
-  .password, .email {
-    margin-top: 15px;
+  transition: all .3s;
+  &:hover {
+    opacity: .9;
   }
 }

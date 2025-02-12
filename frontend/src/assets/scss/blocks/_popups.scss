@@ -1,0 +1,97 @@
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color: #000000, $alpha: .8);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all .3s ease 0s;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.popup__body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 100vh;
+  padding: 30px 10px;
+}
+
+.popup__content {
+  position: relative;
+
+  width: 400px;
+  min-height: 225px;
+
+  border-radius: 10px;
+  background-color: $card-color;
+
+  padding: 15px;
+}
+
+.popup__close {
+  position: absolute;
+
+  right: 15px;
+  top: 15px;
+
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.popup-card__title {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.new-note {
+  margin-top: 30px;
+
+  .data-field {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .placeholder {
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  li:not(:last-child) {
+    margin-bottom: 12px;
+  }
+
+  .note__input {
+    width: 200px;
+    height: 30px;
+
+    border-bottom: 2px solid $bg-white-color;
+  }
+}
+
+.popup__footer {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-between;
+
+  margin-top: 12px;
+
+  &-tooltip .tooltiptext {
+    top: -50px;
+    right: 150%;
+  }
+}
+
+.create-note {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: $green;
+}

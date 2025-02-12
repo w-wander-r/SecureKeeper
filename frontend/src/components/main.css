@@ -97,6 +97,10 @@ body, html {
   background-color: rgb(14, 18, 35);
 }
 
+body.lock {
+  overflow: hidden;
+}
+
 .page {
   display: grid;
   grid-template-rows: max-content 1fr; /* Перша рядка для хедера, друга для меню і контенту */
@@ -116,7 +120,7 @@ button, .signup-form__account-signin, .login-form__account-signin {
   transition: all 0.3s;
 }
 button:hover, .signup-form__account-signin:hover, .login-form__account-signin:hover {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .signup, .login {
@@ -306,31 +310,51 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   grid-area: content;
 }
 
-.cards {
+.notes {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 50px;
 }
 
-.card {
+.note {
   width: 300px;
   height: 150px;
   padding: 15px;
   background-color: rgb(29, 37, 67);
   border-radius: 10px;
 }
-.card-wrap {
+.note-wrap {
   display: flex;
   flex-direction: column;
   text-align: start;
 }
-.card__title {
+.note__data {
+  user-select: text;
+  margin-top: auto;
+}
+.note__data-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  gap: 5px;
+}
+
+.note__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.note__header-title {
+  user-select: text;
   font-weight: 600;
   font-size: 16px;
 }
-.card__userdata {
-  margin-top: auto;
+.note__header-tooltip .tooltiptext {
+  width: 150px;
+  top: 0%;
+  right: 150%;
 }
 
 .placeholder {
@@ -343,17 +367,28 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   font-size: 12px;
 }
 
-.password {
-  margin-top: 5px;
+.create__new-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.create__new-note:hover {
+  opacity: 0.9;
 }
 
-.create__new-card_popup {
+.popup {
   position: fixed;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0;
   visibility: hidden;
+  transition: all 0.3s ease 0s;
+}
+.popup.open {
+  opacity: 1;
+  visibility: visible;
 }
 
 .popup__body {
@@ -366,8 +401,8 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
 
 .popup__content {
   position: relative;
-  width: 600px;
-  height: 300px;
+  width: 400px;
+  min-height: 225px;
   border-radius: 10px;
   background-color: rgb(29, 37, 67);
   padding: 15px;
@@ -381,33 +416,69 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   font-size: 20px;
 }
 
-.popup__title {
+.popup-card__title {
   font-weight: 600;
   font-size: 20px;
 }
 
-.userdata {
-  margin-top: auto;
+.new-note {
+  margin-top: 30px;
 }
-.userdata .userlogin, .userdata .email, .userdata .password {
+.new-note .data-field {
   display: flex;
   flex-direction: column;
 }
-.userdata .user__input {
-  min-width: 100px;
-  height: 30px;
-}
-.userdata .user__input-login {
-  width: 120px;
-}
-.userdata .placeholder {
+.new-note .placeholder {
   font-weight: 500;
   font-size: 18px;
 }
-.userdata .user-data {
-  font-weight: 400;
-  font-size: 14px;
+.new-note li:not(:last-child) {
+  margin-bottom: 12px;
 }
-.userdata .password, .userdata .email {
-  margin-top: 15px;
+.new-note .note__input {
+  width: 200px;
+  height: 30px;
+  border-bottom: 2px solid rgba(204, 204, 204, 0.08);
+}
+
+.popup__footer {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+.popup__footer-tooltip .tooltiptext {
+  top: -50px;
+  right: 150%;
+}
+
+.create-note {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: rgb(32, 130, 50);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* Tooltip text */
+}
+.tooltip .tooltiptext {
+  position: absolute;
+  font-weight: 400;
+  background-color: rgba(204, 204, 204, 0.08);
+  color: #fff;
+  text-align: center;
+  min-width: 130px;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.tooltip:hover .tooltiptext {
+  opacity: 1;
+  visibility: visible;
 }
