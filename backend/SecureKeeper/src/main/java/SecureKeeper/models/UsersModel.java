@@ -1,5 +1,6 @@
 package SecureKeeper.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +13,7 @@ public class UsersModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
 
     private String username;
@@ -25,7 +27,6 @@ public class UsersModel {
         this.username = username;
         this.password = password;
     }
-
     public Long getId() {
         return id;
     }

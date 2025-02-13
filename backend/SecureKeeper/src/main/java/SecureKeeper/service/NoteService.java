@@ -1,26 +1,33 @@
 package SecureKeeper.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import SecureKeeper.models.NoteModel;
+import SecureKeeper.models.Note;
+import SecureKeeper.models.Folder;
 import SecureKeeper.repo.NoteRepo;
+
+import java.util.List;
 
 @Service
 public class NoteService {
-    
+
     @Autowired
     private NoteRepo noteRepo;
 
-    // getting notes
-    public List<NoteModel> getNotesByFolderId(Long folderid) {
-        return noteRepo.findByFolderId(folderid);
+    public Note createNote(Note note) {
+        return noteRepo.save(note);
     }
 
-    // posting notes
-    public NoteModel createNoteModel(NoteModel noteModel) {
-        return noteRepo.save(noteModel);
+    public List<Note> getAllNotesByFolder(Folder folder) {
+        return noteRepo.findByFolder(folder);
+    }
+
+    public Note getNoteById(Long id) {
+        return noteRepo.findById(id).orElse(null);
+    }
+
+    public void deleteNote(Long id) {
+        noteRepo.deleteById(id);
     }
 }

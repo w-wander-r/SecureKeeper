@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import SecureKeeper.models.NoteModel;
+import SecureKeeper.models.Folder;
+import SecureKeeper.models.Note;
 
 @Repository
-public interface NoteRepo extends JpaRepository<NoteModel, Long> {
-    List<NoteModel> findByFolderId(Long folderId);
+public interface NoteRepo extends JpaRepository<Note, Long> {
+    List<Note> findByFolder(Folder folder);
 }
