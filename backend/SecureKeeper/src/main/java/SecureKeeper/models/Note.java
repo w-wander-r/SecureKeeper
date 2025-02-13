@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+// Each note belong to user folder
 @Entity
 @Table(name = "notes")
 public class Note {
@@ -32,7 +33,7 @@ public class Note {
     @JoinColumn(name = "folder_id", nullable = false)
     private Folder folder;
 
-    // Constructors, Getters, and Setters
+    // Constructors
     public Note() {}
 
     public Note(Long id, String title, String username, String email, String password, Folder folder) {
@@ -43,52 +44,23 @@ public class Note {
         this.password = password;
         this.folder = folder;
     }
+    
+    //  Getters and Setters
+    public Long getId() {return id;}
+    public void setId(Long id) {this.id = id;}
 
-    public Long getId() {
-        return id;
-    }
+    public String getUsername() {return username;}
+    public void setUsername(String username) {this.username = username;}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getPassword() {return password;}
+    public void setPassword(String password) {this.password = password;}
 
-    public String getUsername() {
-        return username;
-    }
+    public Folder getFolder() {return folder;}
+    public void setFolder(Folder folder) {this.folder = folder;}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public String getTitle() {return title;}
+    public void setTitle(String title) {this.title = title;}
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Folder getFolder() {
-        return folder;
-    }
-
-    public void setFolder(Folder folder) {
-        this.folder = folder;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getEmail() {return email;}
+    public void setEmail(String email) {this.email = email;}
 }

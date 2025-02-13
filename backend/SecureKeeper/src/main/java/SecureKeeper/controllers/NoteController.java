@@ -16,6 +16,11 @@ import SecureKeeper.models.Note;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.service.NoteService;
 
+/* 
+ * Endpoints for post/get/delete methods
+ * 
+ * TODO: add put(update) method
+ */
 @RestController
 @RequestMapping("api/notes")
 public class NoteController {
@@ -28,15 +33,16 @@ public class NoteController {
 
     @PostMapping
     public Note createNote(@RequestBody Note note) {
+        // Fetch the folder from the database using the folderID
         Folder folder = folderRepo.findById(note.getFolder().getId()).orElse(null);
         
-        if (folder == null) {
-            throw new RuntimeException("Folder not found");
-        }
+        if (folder == null) {throw new RuntimeException("Folder not found");}
 
+        // Linking user with current folder
         return noteService.createNote(note);
     }
 
+    // Endpoint to get all notes associeted with folder
     @GetMapping("/folder/{folderId}")
     public List<Note> getAllNotesByFolder(@PathVariable Long folderId) {
         Folder folder = new Folder();
@@ -44,6 +50,7 @@ public class NoteController {
         return noteService.getAllNotesByFolder(folder);
     }
 
+    // Endpoint to get a note
     @GetMapping("/{id}")
     public Note getNoteById(@PathVariable Long id) {
         return noteService.getNoteById(id);

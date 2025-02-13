@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.service.UserService;
 
+// Endpoints for Login and Register
 @RestController
-// @CrossOrigin(origins="http://localhost:8080")
 public class UserController {
 
     @Autowired

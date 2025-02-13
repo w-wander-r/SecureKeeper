@@ -16,6 +16,11 @@ import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 
+/* 
+ * Endpoints for post/get/delete methods
+ * 
+ * TODO: add put(update) method
+ */
 @RestController
 @RequestMapping("api/folders")
 public class FolderController {
@@ -23,22 +28,24 @@ public class FolderController {
     @Autowired
     private FolderService folderService;
 
-    @Autowired UserRepo userRepo;
+    // @Autowired UserRepo userRepo;
+    @Autowired
+    private UserRepo userRepo;
 
     @PostMapping
     public Folder createFolder(@RequestBody Folder folder) {
         // Fetch the user from the database using the user ID
         UsersModel user = userRepo.findById(folder.getUser ().getId()).orElse(null);
 
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
+        if (user == null) {throw new RuntimeException("User not found");}
 
-        folder.setUser (user); // Set the user for the folder
+        // Linking user with current folder
+        folder.setUser(user);
 
         return folderService.createFolder(folder);
     }
 
+    // Endpoint to get all folders from current user
     @GetMapping("/user/{userId}")
     public List<Folder> getAllFoldersByUser (@PathVariable Long userId) {
         UsersModel user = new UsersModel();
@@ -46,6 +53,7 @@ public class FolderController {
         return folderService.getAllFoldersByUser (user);
     }
 
+    // Endpoint to get a folder
     @GetMapping("/{id}")
     public Folder getFolderById(@PathVariable Long id) {
         return folderService.getFolderById(id);

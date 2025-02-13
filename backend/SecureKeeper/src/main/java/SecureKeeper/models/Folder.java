@@ -16,6 +16,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+
+// Each user from `UsersModel` class can create multiple folders
 @Entity
 @Table(name = "folders")
 public class Folder {
@@ -27,51 +29,36 @@ public class Folder {
 
     private String name;
 
+    // @ManyToOne linking user with his folders
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UsersModel user;
-
+    
+    // @OneToMany linking individual folder with notes
+    // @JsonIgnore is solving circular reference
     @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Note> notes;
 
-    // Constructors, Getters, and Setters
-    public Folder() {}
 
+    // Constructors
+    public Folder() {}
+    
     public Folder(String name, UsersModel user) {
         this.name = name;
         this.user = user;
     }
 
-    public Long getId() {
-        return id;
-    }
+    // Getters and Setters
+    public Long getId() {return id;}
+    public void setId(Long id) {this.id = id;}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
 
-    public String getName() {
-        return name;
-    }
+    public UsersModel getUser () {return user;}
+    public void setUser (UsersModel user) {this.user = user;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public UsersModel getUser () {
-        return user;
-    }
-
-    public void setUser (UsersModel user) {
-        this.user = user;
-    }
-
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
-    }
+    public List<Note> getNotes() {return notes;}
+    public void setNotes(List<Note> notes) {this.notes = notes;}
 }
