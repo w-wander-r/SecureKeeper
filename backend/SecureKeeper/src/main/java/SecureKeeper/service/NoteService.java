@@ -1,13 +1,13 @@
 package SecureKeeper.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import SecureKeeper.models.Note;
 import SecureKeeper.models.Folder;
+import SecureKeeper.models.Note;
 import SecureKeeper.repo.NoteRepo;
-
-import java.util.List;
 
 @Service
 public class NoteService {
