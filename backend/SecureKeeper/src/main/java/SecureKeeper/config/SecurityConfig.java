@@ -38,6 +38,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(request -> request
                 .requestMatchers("/register", "/login")
                 .permitAll()
+                /* 
+                 * To disable login ->
+                 * .anyRequest().permitAll()
+                */
                 .anyRequest().authenticated())
             // .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER))
