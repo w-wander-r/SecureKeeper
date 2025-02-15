@@ -10,5 +10,6 @@ import SecureKeeper.models.Note;
 
 @Repository
 public interface NoteRepo extends JpaRepository<Note, Long> {
+    // not used
     List<Note> findByFolder(Folder folder);
 }

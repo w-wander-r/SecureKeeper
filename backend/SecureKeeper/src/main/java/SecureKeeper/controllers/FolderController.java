@@ -17,10 +17,10 @@ import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 
 /* 
- * Endpoints for post/get/delete methods
- * 
- * TODO: add put(update) method
- */
+*
+* Endpoints for post/get/delete methods
+*
+*/
 @RestController
 @RequestMapping("api/folders")
 public class FolderController {
@@ -63,4 +63,8 @@ public class FolderController {
     public void deleteFolder(@PathVariable Long id) {
         folderService.deleteFolder(id);
     }
+
+    /* 
+     * Update method
+    */
 }

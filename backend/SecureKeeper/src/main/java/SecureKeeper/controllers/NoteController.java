@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,13 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import SecureKeeper.models.Folder;
 import SecureKeeper.models.Note;
 import SecureKeeper.repo.FolderRepo;
+import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.service.NoteService;
 
+
 /* 
- * Endpoints for post/get/delete methods
  * 
- * TODO: add put(update) method
- */
+ * Endpoints for post/get/delete methods
+ *
+*/
 @RestController
 @RequestMapping("api/notes")
 public class NoteController {
@@ -30,6 +33,9 @@ public class NoteController {
 
     @Autowired
     private FolderRepo folderRepo;
+
+    @Autowired
+    private NoteRepo noteRepo;
 
     @PostMapping
     public Note createNote(@RequestBody Note note) {
@@ -59,5 +65,23 @@ public class NoteController {
     @DeleteMapping("/{id}")
     public void deleteNote(@PathVariable Long id) {
         noteService.deleteNote(id);
+    }
+
+    @PutMapping("/{id}")
+    public Note updateNote(@PathVariable Long id, @RequestBody Note note) {
+        // Fetch the note from the database using the noteId
+        Note updatedNote = noteRepo.findById(id).orElse(null);
+        
+        if (updatedNote == null) {throw new RuntimeException("Note not found");}
+
+        if (note.getTitle() != null) updatedNote.setTitle(note.getTitle());
+        if (note.getUsername() != null) updatedNote.setUsername(note.getUsername());
+        updatedNote.setEmail(note.getEmail());
+        if (note.getPassword() != null) updatedNote.setPassword(note.getPassword());
+
+
+        noteRepo.save(updatedNote);
+
+        return updatedNote;
     }
 }
