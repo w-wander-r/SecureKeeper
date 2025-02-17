@@ -6,7 +6,7 @@ SecureKeeper is a password management platform designed to solve the problem of 
 
 ## Goals
 - Provide a **secure platform** for users to store and manage their passwords.
-- Simplify users' lives by allowing them to organize credentials into **folders** and **notes**.
+- Simplify users lives by allowing them to organize credentials into **folders** and **notes**.
 - Ensure all data is **encrypted** and accessible only with a user-defined PIN.
 
 ## Scope
@@ -36,14 +36,11 @@ SecureKeeper is a password management platform designed to solve the problem of 
    - Store credentials like usernames, emails, and passwords.
 4. **Data Encryption**:
    - All sensitive data in notes is stored as encrypted values in the database.
-5. **PIN-Based Access**:
-   - Users must enter a PIN to decrypt and view their stored data.
 
 ## Technical Details
 ### Tech Stack
 - **Backend**: Java with Spring (Spring Boot, Spring Security).
 - **Database**: MySQL.
-- **Encryption**: BCrypt (12 log rounds)
 
 ### Architecture
 - **Backend**: RESTful API for handling user authentication, folder/note management, and encryption/decryption.
