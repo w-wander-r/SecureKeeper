@@ -3,7 +3,6 @@ package SecureKeeper.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +38,7 @@ public class FolderController {
         // Fetch the user from the database using the user ID
         UsersModel user = userRepo.findById(folder.getUser ().getId()).orElse(null);
 
-        if (user == null) {throw new RuntimeException("User not found");}
+        if (user == null) throw new RuntimeException("User not found");
 
         // Linking user with current folder
         folder.setUser(user);
@@ -48,7 +47,6 @@ public class FolderController {
     }
 
     // Endpoint to get all folders from current user
-    @PreAuthorize("#userId == authentication.principal.id")
     @GetMapping("/user/{userId}")
     public List<Folder> getAllFoldersByUser (@PathVariable Long userId) {
         // Get current user id to check if it match id from url
@@ -56,7 +54,7 @@ public class FolderController {
         UsersModel currUser = userRepo.findByUsername(currUsername);
 
         if (!currUser.getId().equals(userId)) throw new RuntimeException("You are not allowed to acces this path");
-        
+
         return folderService.getAllFoldersByUser(currUser);
     }
 

@@ -3,6 +3,7 @@ package SecureKeeper.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import SecureKeeper.models.Folder;
 import SecureKeeper.models.Note;
+import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.NoteRepo;
+import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.NoteService;
 
 
@@ -37,6 +40,9 @@ public class NoteController {
     @Autowired
     private NoteRepo noteRepo;
 
+    @Autowired
+    private UserRepo userRepo;
+
     @PostMapping
     public Note createNote(@RequestBody Note note) {
         // Fetch the folder from the database using the folderID
@@ -51,8 +57,14 @@ public class NoteController {
     // Endpoint to get all notes associeted with folder
     @GetMapping("/folder/{folderId}")
     public List<Note> getAllNotesByFolder(@PathVariable Long folderId) {
-        Folder folder = new Folder();
-        folder.setId(folderId);
+        // Get the currently authenticated user
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsersModel currentUser  = userRepo.findByUsername(currentUsername);
+
+        Folder folder = folderRepo.findById(folderId).orElse(null);
+        
+        if (folder == null || !folder.getUser ().getId().equals(currentUser .getId())) throw new RuntimeException("You are not allowed to acces this path");
+
         return noteService.getAllNotesByFolder(folder);
     }
 
