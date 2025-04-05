@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import SecureKeeper.models.Folder;
 import SecureKeeper.models.UsersModel;
+import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 
@@ -32,6 +33,9 @@ public class FolderController {
     // @Autowired UserRepo userRepo;
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private FolderRepo folderRepo;
 
     @PostMapping
     public Folder createFolder(@RequestBody Folder folder) {
@@ -59,9 +63,17 @@ public class FolderController {
     }
 
     // Endpoint to get a folder
-    @GetMapping("/{id}")
-    public Folder getFolderById(@PathVariable Long id) {
-        return folderService.getFolderById(id);
+    @GetMapping("/{folderId}")
+    public Folder getFolderById(@PathVariable Long folderId) {
+        // Get current user id to check if it match id from url
+        String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsersModel currUser = userRepo.findByUsername(currUsername);
+
+        Folder folder = folderRepo.findById(folderId).orElse(null);
+
+        if (folder == null || !folder.getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to acces this path");
+
+        return folder;
     }
 
     @DeleteMapping("/{id}")
