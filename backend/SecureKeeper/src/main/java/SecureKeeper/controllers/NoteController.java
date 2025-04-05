@@ -69,9 +69,20 @@ public class NoteController {
     }
 
     // Endpoint to get a note
-    @GetMapping("/{id}")
-    public Note getNoteById(@PathVariable Long id) {
-        return noteService.getNoteById(id);
+    @GetMapping("/{noteId}")
+    public Note getNoteById(@PathVariable Long noteId) {
+        // Get current user id to check if it match id from url
+        String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsersModel currUser = userRepo.findByUsername(currUsername);
+
+        Note note = noteRepo.findById(noteId).orElse(null);
+        if(note == null) throw new RuntimeException("Note not found");
+
+        Folder folder = note.getFolder();
+
+        if(folder == null || !folder.getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to access this note");
+        
+        return note;
     }
 
     @DeleteMapping("/{id}")
