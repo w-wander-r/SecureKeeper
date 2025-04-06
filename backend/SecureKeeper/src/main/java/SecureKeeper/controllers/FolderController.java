@@ -76,9 +76,17 @@ public class FolderController {
         return folder;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteFolder(@PathVariable Long id) {
-        folderService.deleteFolder(id);
+    // Endpoint to delete folder
+    @DeleteMapping("/{folderId}")
+    public void deleteFolder(@PathVariable Long folderId) {
+        
+        String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsersModel currUser = userRepo.findByUsername(currUsername);
+
+        Folder folder = folderRepo.findById(folderId).orElse(null);
+        if(folder == null || !folder.getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to acces this path");
+
+        folderService.deleteFolder(folderId);
     }
 
     /* 
