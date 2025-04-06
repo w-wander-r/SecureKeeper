@@ -85,9 +85,16 @@ public class NoteController {
         return note;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteNote(@PathVariable Long id) {
-        noteService.deleteNote(id);
+    // Endpoint to delete note
+    @DeleteMapping("/{noteId}")
+    public void deleteNote(@PathVariable Long noteId) {
+        String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsersModel currUser = userRepo.findByUsername(currUsername);
+
+        Note note = noteRepo.findById(noteId).orElse(null);
+        if(note == null || !note.getFolder().getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to access this note");
+
+        noteService.deleteNote(noteId);
     }
 
     @PutMapping("/{id}")
