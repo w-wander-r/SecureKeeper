@@ -48,8 +48,11 @@ public class NoteController {
     public Note createNote(@RequestBody Note note) {
         // Fetch the folder from the database using the folderID
         Folder folder = folderRepo.findById(note.getFolder().getId()).orElse(null);
+
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsersModel currentUser = userRepo.findByUsername(currentUsername);
         
-        if (folder == null) {throw new RuntimeException("Folder not found");}
+        if (folder == null || !folder.getUser().getId().equals(currentUser.getId())) throw new RuntimeException("You are not allowed to acces this path");
 
         // Linking user with current folder
         return noteService.createNote(note);
@@ -64,7 +67,7 @@ public class NoteController {
 
         Folder folder = folderRepo.findById(folderId).orElse(null);
         
-        if (folder == null || !folder.getUser ().getId().equals(currentUser .getId())) throw new RuntimeException("You are not allowed to acces this path");
+        if (folder == null || !folder.getUser().getId().equals(currentUser .getId())) throw new RuntimeException("You are not allowed to acces this path");
 
         return noteService.getAllNotesByFolder(folder);
     }
@@ -98,6 +101,7 @@ public class NoteController {
         noteService.deleteNote(noteId);
     }
 
+    // TODO: fix access for updating note
     @PutMapping("/{id}")
     public Note updateNote(@PathVariable Long id, @RequestBody Note note) {
         // Fetch the note from the database using the noteId

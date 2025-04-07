@@ -92,6 +92,7 @@ public class FolderController {
         folderService.deleteFolder(folderId);
     }
 
+    // TODO: implement update method for folder
     /* 
      * Update method
     */
