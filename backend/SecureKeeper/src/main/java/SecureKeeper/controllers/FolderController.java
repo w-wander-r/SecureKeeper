@@ -30,7 +30,6 @@ public class FolderController {
     @Autowired
     private FolderService folderService;
 
-    // @Autowired UserRepo userRepo;
     @Autowired
     private UserRepo userRepo;
 
@@ -40,9 +39,13 @@ public class FolderController {
     @PostMapping
     public Folder createFolder(@RequestBody Folder folder) {
         // Fetch the user from the database using the user ID
-        UsersModel user = userRepo.findById(folder.getUser ().getId()).orElse(null);
+        UsersModel user = userRepo.findById(folder.getUser().getId()).orElse(null);
+        
+        String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsersModel currUser = userRepo.findByUsername(currUsername);
 
         if (user == null) throw new RuntimeException("User not found");
+        if(!currUser.getId().equals(user.getId())) throw new RuntimeException("You are not allowed to acces this path");
 
         // Linking user with current folder
         folder.setUser(user);

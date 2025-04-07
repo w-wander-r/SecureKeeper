@@ -43,6 +43,7 @@ public class NoteController {
     @Autowired
     private UserRepo userRepo;
 
+    // TODO: fix access for post method
     @PostMapping
     public Note createNote(@RequestBody Note note) {
         // Fetch the folder from the database using the folderID
