@@ -43,7 +43,6 @@ public class NoteController {
     @Autowired
     private UserRepo userRepo;
 
-    // TODO: fix access for post method
     @PostMapping
     public Note createNote(@RequestBody Note note) {
         // Fetch the folder from the database using the folderID
@@ -101,19 +100,20 @@ public class NoteController {
         noteService.deleteNote(noteId);
     }
 
-    // TODO: fix access for updating note
-    @PutMapping("/{id}")
-    public Note updateNote(@PathVariable Long id, @RequestBody Note note) {
-        // Fetch the note from the database using the noteId
-        Note updatedNote = noteRepo.findById(id).orElse(null);
+    @PutMapping("/{noteId}")
+    public Note updateNote(@PathVariable Long noteId, @RequestBody Note note) {
+        String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UsersModel currUser = userRepo.findByUsername(currUsername);
         
-        if (updatedNote == null) {throw new RuntimeException("Note not found");}
+        // Current note will be updated in `updateNote` variable
+        Note updatedNote = noteRepo.findById(noteId).orElse(null);
 
+        if(updatedNote == null || !updatedNote.getFolder().getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to access this note");
+        
         if (note.getTitle() != null) updatedNote.setTitle(note.getTitle());
         if (note.getUsername() != null) updatedNote.setUsername(note.getUsername());
         updatedNote.setEmail(note.getEmail());
         if (note.getPassword() != null) updatedNote.setPassword(note.getPassword());
-
 
         noteRepo.save(updatedNote);
 

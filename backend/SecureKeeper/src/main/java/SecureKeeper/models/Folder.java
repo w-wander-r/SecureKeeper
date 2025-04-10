@@ -40,7 +40,6 @@ public class Folder {
     @JsonIgnore
     private List<Note> notes;
 
-
     // Constructors
     public Folder() {}
     

@@ -27,16 +27,6 @@ public class UsersModel {
     private String password;
 
     /* 
-
-     * First approach: not using @OneToMany to keep simplicity
-     *  and could be better performance as folders not loading
-     * but there some drawbacks ->
-     *  -> Indirect Access, which can cause lower performance
-     *  -> Lack Of Cascading - TODO: test this case(deleting user)
-     
-    */
-
-    /* 
       
      * Second approach: use @OneToMany
      *  Most likely its best approach for now
