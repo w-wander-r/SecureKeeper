@@ -21,7 +21,7 @@ import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.NoteService;
 
-
+// TODO: rewrite setters logic
 /* 
  * 
  * Endpoints for post/get/delete methods
