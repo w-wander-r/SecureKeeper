@@ -44,6 +44,13 @@ public class Note {
         this.password = password;
         this.folder = folder;
     }
+
+    public void update(String title, String username, String email, String password) {
+        if (title != null) this.title = title;
+        if (username != null) this.username = username;
+        if (email != null) this.email = email;
+        if (password != null) this.password = password;
+    }
     
     //  Getters and Setters
     public Long getId() {return id;}

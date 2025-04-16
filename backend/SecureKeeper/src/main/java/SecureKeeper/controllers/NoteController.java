@@ -21,7 +21,6 @@ import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.NoteService;
 
-// TODO: rewrite setters logic
 /* 
  * 
  * Endpoints for post/get/delete methods
@@ -100,6 +99,7 @@ public class NoteController {
         noteService.deleteNote(noteId);
     }
 
+    // Endpoint to update note
     @PutMapping("/{noteId}")
     public Note updateNote(@PathVariable Long noteId, @RequestBody Note note) {
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -110,10 +110,7 @@ public class NoteController {
 
         if(updatedNote == null || !updatedNote.getFolder().getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to access this note");
         
-        if (note.getTitle() != null) updatedNote.setTitle(note.getTitle());
-        if (note.getUsername() != null) updatedNote.setUsername(note.getUsername());
-        updatedNote.setEmail(note.getEmail());
-        if (note.getPassword() != null) updatedNote.setPassword(note.getPassword());
+        updatedNote.update(note.getTitle(), note.getUsername(), note.getEmail(), note.getPassword());
 
         noteRepo.save(updatedNote);
 
