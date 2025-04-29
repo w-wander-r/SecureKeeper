@@ -19,6 +19,7 @@ import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 
+// TODO: implement DTO
 /* 
 *
 * Endpoints for post/get/delete methods
