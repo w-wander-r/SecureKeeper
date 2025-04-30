@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import SecureKeeper.models.Folder;
 import SecureKeeper.models.FolderDTO;
+import SecureKeeper.models.FolderUpdateDTO;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.UserRepo;
@@ -73,16 +74,18 @@ public class FolderController {
 
     // Endpoint to get a folder
     @GetMapping("/{folderId}")
-    public Folder getFolderById(@PathVariable Long folderId) {
+    public FolderDTO getFolderById(@PathVariable Long folderId) {
         // Get current user id to check if it match id from url
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currUser = userRepo.findByUsername(currUsername);
 
         Folder folder = folderRepo.findById(folderId).orElse(null);
 
-        if (folder == null || !folder.getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to acces this path");
+        if (folder == null || !folder.getUser().getId().equals(currUser.getId())) {
+            throw new RuntimeException("You are not allowed to acces this path");
+        }
 
-        return folder;
+        return FolderDTO.fromEntity(folder);
     }
 
     // Endpoint to delete folder
@@ -100,16 +103,22 @@ public class FolderController {
 
     // Endpoint to update folder name
     @PatchMapping("/{folderId}")
-    public Folder updateFolder(@PathVariable Long folderId, @RequestBody Folder folderDetails) {
+    public FolderDTO updateFolder(
+        @PathVariable Long folderId, 
+        @RequestBody FolderUpdateDTO folderUpdateDTO
+    ) {
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currUser  = userRepo.findByUsername(currUsername);
 
         Folder folder = folderRepo.findById(folderId).orElse(null);
         
-        if (folder == null || !folder.getUser ().getId().equals(currUser .getId())) throw new RuntimeException("You are not allowed to access this path");
+        if (folder == null || !folder.getUser ().getId().equals(currUser .getId())) {
+            throw new RuntimeException("You are not allowed to access this path");
+        }
 
-        if (folderDetails.getName() != null) folder.setName(folderDetails.getName());
+        if (folderUpdateDTO.name() != null) folder.setName(folderUpdateDTO.name());
 
-        return folderService.createFolder(folder);
+        Folder updatedFolder = folderService.createFolder(folder);
+        return FolderDTO.fromEntity(updatedFolder);
     }
 }
