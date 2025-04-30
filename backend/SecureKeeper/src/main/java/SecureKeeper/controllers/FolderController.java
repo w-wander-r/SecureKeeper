@@ -1,6 +1,7 @@
 package SecureKeeper.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import SecureKeeper.models.Folder;
+import SecureKeeper.models.FolderDTO;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 
 // TODO: implement DTO
+// TODO: fix id requesting in json
 /* 
 *
 * Endpoints for post/get/delete methods
@@ -39,32 +42,33 @@ public class FolderController {
     private FolderRepo folderRepo;
 
     @PostMapping
-    public Folder createFolder(@RequestBody Folder folder) {
-        // Fetch the user from the database using the user ID
-        UsersModel user = userRepo.findById(folder.getUser().getId()).orElse(null);
-        
+    public FolderDTO createFolder(@RequestBody FolderDTO folderDTO) {
+
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currUser = userRepo.findByUsername(currUsername);
 
-        if (user == null) throw new RuntimeException("User not found");
-        if(!currUser.getId().equals(user.getId())) throw new RuntimeException("You are not allowed to acces this path");
+        if(!currUser.getId().equals(folderDTO.userId())) {
+            throw new RuntimeException("You are not allowed to access this path");
+        }
+        
+        Folder folder = FolderDTO.toEntity(folderDTO, currUser);
+        Folder createFolder = folderService.createFolder(folder);
 
-        // Linking user with current folder
-        folder.setUser(user);
-
-        return folderService.createFolder(folder);
+        return FolderDTO.fromEntity(createFolder);
     }
 
     // Endpoint to get all folders from current user
     @GetMapping("/user/{userId}")
-    public List<Folder> getAllFoldersByUser (@PathVariable Long userId) {
+    public List<FolderDTO> getAllFoldersByUser(@PathVariable Long userId) {
         // Get current user id to check if it match id from url
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currUser = userRepo.findByUsername(currUsername);
 
-        if (!currUser.getId().equals(userId)) throw new RuntimeException("You are not allowed to acces this path");
+        if (!currUser.getId().equals(userId)) { throw new RuntimeException("You are not allowed to acces this path"); }
 
-        return folderService.getAllFoldersByUser(currUser);
+        return folderService.getAllFoldersByUser(currUser).stream()
+            .map(FolderDTO::fromEntity)
+            .collect(Collectors.toList());
     }
 
     // Endpoint to get a folder
