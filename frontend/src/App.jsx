@@ -1,8 +1,9 @@
-// impoer scss
+import './styles/main.scss'
+
 
 function App() {
   return (
-    <h1>Hello GOYDA</h1>
+    <div></div>
   );
 }
 
