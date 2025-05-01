@@ -18,7 +18,7 @@
       </div>
 
       <div class="signup-form">
-        <form action="#" method="post" class="signup-form__form">
+        <form id="loginForm" class="signup-form__form">
           <!-- Field for username or email -->
           <label for="username-login" class="signup-form__label">Username</label>
           <input type="text" id="username-login" name="user_identifier" class="signup-form__input" placeholder="Enter username" required>
@@ -45,5 +45,47 @@
     </div>
   </section>
 
+
+<!-- Fetching from backend -->
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault(); // This prevents the default form submission
+      
+      const username = document.getElementById('username-login').value;
+      const password = document.getElementById('password-login').value;
+      
+      try {
+        console.log('Sending request to backend...');
+        const response = await fetch('http://localhost:8090/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        });
+        
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => null);
+          throw new Error(errorData?.message || 'Login failed');
+        }
+        
+        const result = await response.text();
+        console.log('Login successful:', result);
+        // Handle successful login (redirect, store token, etc.)
+        // TODO: redirect to main page
+        window.location.href = './login.html';
+        
+      } catch (error) {
+        console.error('Error:', error);
+        // Show error message to user
+        alert(error.message || 'Login failed. Please check your credentials and try again.');
+      }
+    });
+  </script>
 </body>
 </html>
