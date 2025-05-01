@@ -1,0 +1,20 @@
+body, html {
+  height: 100vh;
+  background: #0E1223;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'K2D', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+}
+
+button:hover {
+  cursor: pointer;
+  opacity: .8;
+
+  transition: opacity .2s ease;
+}
