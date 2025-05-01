@@ -24,31 +24,31 @@
     </ul>
 
     <div class="user">
-      <img src="../src/assets/images/header/userProfile-icon.svg" alt="" class="user-avatar">
+      <img src="../src/assets/images/header/userProfile-icon.svg" alt="" class="user__avatar">
 
-      <span class="user-name">User Userovich</span>
+      <span class="user__name">Goyda</span>
     </div>
   </header>
   
-  <aside class="sidebar">
+  <aside class="aside">
     <!-- Aside folders -->
     <ul id="aside-folders" class="aside__folders">
-      <button class="aside-folder aside-item active">
-        <img src="../src/assets/images/sidebar/folder-icon.svg" alt="folder" class="folder__icon">
+      <button class="aside__folder aside__item active">
+        <img src="../src/assets/images/sidebar/folder-icon.svg" alt="folder" class="aside__folder-icon">
   
-        <span class="folder__name">Default</span>
+        <span class="aside__folder-name">Default</span>
       </button>
   
-      <button class="aside-create__new-folder aside-item">
-        <img src="../src/assets/images/sidebar/newFolder-icon.svg" alt="new folder" class="new-folder__icon">
+      <button class="aside__new-folder aside__item">
+        <img src="../src/assets/images/sidebar/newFolder-icon.svg" alt="new folder" class="aside__new-folder-icon">
   
-        <span class="new-folder">New Folder</span>
+        <span class="aside__new-folder-name">New Folder</span>
       </button>
     </ul>
   </aside>
 
   <section class="content">
-    <div class="conteiner">
+    <div class="container">
       <ul id="notes-container" class="notes">
         <a href="#popup-note" id="popup-link" class="create__new-note note">
           <svg width="50" height="50" viewBox="0 0 50 50" class="create" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,40 +69,39 @@
       <div class="popup__content card-wrap">
         <a href="" class="popup__close close-popup">X</a>
 
-        <input class="popup-card__title" id="user__note-name" placeholder="Enter note name" minlength="1" maxlength="10"></input>
+        <input class="popup__note-title" id="user__note-name" placeholder="Enter note name" minlength="1" maxlength="10"></input>
         
-        <ul class="new-note">
-          <li class="data-field">
-            <span class="placeholder">Login:</span>
+        <ul class="note-list">
+          <li class="note-list__item">
+            <span class="popup__placeholder">Login:</span>
             <input type="text" id="user__note-login" class="note__input" placeholder="Enter your login" maxlength="12">
           </li>
 
-          <li class="data-field">
-            <span class="placeholder">Email:</span>
+          <li class="note-list__item">
+            <span class="popup__placeholder">Email:</span>
             <input type="email" id="user__note-email" class="note__input" placeholder="Enter your email" maxlength="28">
           </li>
   
-          <li class="data-field">
-            <span class="placeholder">Password:</span>
+          <li class="note-list__item">
+            <span class="popup__placeholder">Password:</span>
             <input type="password" id="user__note-password" class="note__input" placeholder="Enter your password" maxlength="20">
           </li>
         </ul>
 
         <footer class="popup__footer">
-          <button type="button" id="create-note" class="create-note">Create note</button>
+          <button type="button" id="create-note" class="popup__create-note">Create note</button>
 
-          <div class="tooltip popup__footer-tooltip">
+          <div class="tooltip popup__tooltip">
             <svg width="20" height="25" viewBox="0 0 20 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.75 18.75H11.25V11.25H8.75V18.75ZM10 8.75C10.3542 8.75 10.6513 8.63 10.8913 8.39C11.1313 8.15 11.2508 7.85333 11.25 7.5C11.2492 7.14667 11.1292 6.85 10.89 6.61C10.6508 6.37 10.3542 6.25 10 6.25C9.64583 6.25 9.34917 6.37 9.11 6.61C8.87083 6.85 8.75083 7.14667 8.75 7.5C8.74917 7.85333 8.86917 8.15042 9.11 8.39125C9.35083 8.63208 9.6475 8.75167 10 8.75ZM10 25C7.10417 24.2708 4.71333 22.6092 2.8275 20.015C0.941667 17.4208 -0.000832781 14.5408 5.5212e-07 11.375V3.75L10 0L20 3.75V11.375C20 14.5417 19.0575 17.4221 17.1725 20.0163C15.2875 22.6104 12.8967 24.2717 10 25ZM10 22.375C12.1667 21.6875 13.9583 20.3125 15.375 18.25C16.7917 16.1875 17.5 13.8958 17.5 11.375V5.46875L10 2.65625L2.5 5.46875V11.375C2.5 13.8958 3.20833 16.1875 4.625 18.25C6.04167 20.3125 7.83333 21.6875 10 22.375Z" fill="white" />
             </svg>
-            <span class="tooltiptext">Leave an empty field for data that you do not need to store</span>
+            <span class="popup__tooltip-text tooltiptext">Leave an empty field for data that you do not need to store</span>
           </div>
         </footer>
       </div>
     </div>
   </div>
 
-  <script type="module" src="../src/components/main.js"></script>
   <script src="../src/assets/scripts/aside.js"></script>
   <script src="../src/assets/scripts/notes.js"></script>
 

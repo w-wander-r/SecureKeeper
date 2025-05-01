@@ -46,20 +46,20 @@
   font-size: 20px;
 }
 
-.popup-card__title {
+.popup__note-title {
   font-weight: 600;
   font-size: 20px;
 }
 
-.new-note {
+.note-list {
   margin-top: 30px;
 
-  .data-field {
+  .note-list__item {
     display: flex;
     flex-direction: column;
   }
   
-  .placeholder {
+  .popup__placeholder {
     font-weight: 500;
     font-size: 18px;
   }
@@ -84,13 +84,13 @@
 
   margin-top: 12px;
 
-  &-tooltip .tooltiptext {
+  .popup__tooltip .tooltiptext {
     top: -50px;
     right: 150%;
   }
 }
 
-.create-note {
+.popup__create-note {
   padding: 10px 15px;
   border-radius: 5px;
   background-color: $green;

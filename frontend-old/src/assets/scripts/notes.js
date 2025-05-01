@@ -142,7 +142,7 @@ createNoteBtn.addEventListener("click", (e) => {
   const headerTooltip = document.createElement('div')
   const tooltipTextSpan = document.createElement('span')
 
-  headerTooltip.classList.add('tooltip', 'note__header-tooltip')
+  headerTooltip.classList.add('tooltip', 'note__tooltip')
   tooltipTextSpan.textContent = "Data is encrypted, to display it you need to enter a code"
   tooltipTextSpan.classList.add('tooltiptext')
 

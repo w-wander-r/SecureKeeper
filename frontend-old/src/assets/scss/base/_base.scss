@@ -10,6 +10,9 @@ body, html {
 
   // Bacground
   background-color: $bg-color;
+
+  overflow-x: hidden;
+  word-wrap: break-word;
 }
 
 body.lock {
@@ -22,12 +25,6 @@ body.lock {
   grid-template-columns: max-content 1fr; /* Перша колонка для меню, друга для контенту */
   grid-template-areas: "header header" "sidebar content"; /* Хедер буде зверху на дві колонки */
   height: 100vh; /* Сторінка на всю висоту */
-}
-
-.container {
-  width: fit-content;
-  padding-inline: 15px;
-  margin: auto;
 }
 
 button, .signup-form__account-signin, .login-form__account-signin {

@@ -39,9 +39,13 @@
 
   margin-left: auto;
 
-  &-avatar {
+  &__avatar {
     margin-bottom: 5px;
 
     width: 40px;
+  }
+
+  &__name {
+    font-weight: 600;
   }
 }

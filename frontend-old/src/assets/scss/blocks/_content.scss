@@ -1,11 +1,12 @@
 .content {
-  padding: 50px;
+  padding: 50px 15px 50px 50px;
 
   grid-area: content;
 }
 
 .notes {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   gap: 50px;
@@ -54,10 +55,10 @@
     font-size: 16px;
   }
 
-  &-tooltip .tooltiptext {
-    width: 150px;
+  .note__tooltip .tooltiptext {
+    width: 125px;
 
-    top: 0%;
+    top: -50%;
     right: 150%;
   }
 }

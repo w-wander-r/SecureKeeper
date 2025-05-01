@@ -1,4 +1,4 @@
-.sidebar {
+.aside {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,20 +18,20 @@
 
   margin-top: 50px;
 
-  .aside-folder {
+  .aside__folder {
     &:not(:last-child) {
       margin-bottom: 25px;
     }
   }
 }
 
-.aside-folder {
+.aside__folder {
   position: relative;
 
   &::before {
     content: "";
     position: absolute;
-    left: -35%;
+    right: 110%;
     top: 6px;
     border-radius: 0 5px 5px 0;
     width: 7px;
@@ -46,18 +46,24 @@
   }
 }
 
-.aside-item {
+.aside__item {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  max-width: 70px;
 
   img {
     margin-bottom: 5px;
   }
 
-  span {
-    white-space: nowrap;
+  .folder__name {
+    max-width: inherit;
     font-size: 12px;
     font-weight: 500;
+  }
+
+  .aside__new-folder-name {
+    width: 70px;
   }
 }

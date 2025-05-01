@@ -95,6 +95,8 @@ body, html {
   font-weight: 400;
   color: #fff;
   background-color: rgb(14, 18, 35);
+  overflow-x: hidden;
+  word-wrap: break-word;
 }
 
 body.lock {
@@ -107,12 +109,6 @@ body.lock {
   grid-template-columns: max-content 1fr; /* Перша колонка для меню, друга для контенту */
   grid-template-areas: "header header" "sidebar content"; /* Хедер буде зверху на дві колонки */
   height: 100vh; /* Сторінка на всю висоту */
-}
-
-.container {
-  width: fit-content;
-  padding-inline: 15px;
-  margin: auto;
 }
 
 button, .signup-form__account-signin, .login-form__account-signin {
@@ -212,7 +208,7 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   gap: 10px;
 }
 
-.sidebar {
+.aside {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -228,17 +224,17 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   flex-direction: column;
   margin-top: 50px;
 }
-.aside__folders .aside-folder:not(:last-child) {
+.aside__folders .aside__folder:not(:last-child) {
   margin-bottom: 25px;
 }
 
-.aside-folder {
+.aside__folder {
   position: relative;
 }
-.aside-folder::before {
+.aside__folder::before {
   content: "";
   position: absolute;
-  left: -35%;
+  right: 110%;
   top: 6px;
   border-radius: 0 5px 5px 0;
   width: 7px;
@@ -247,22 +243,26 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   transform: scaleY(0);
   transition: transform 0.3s ease-in-out; /* Smoth animation */
 }
-.aside-folder.active::before {
+.aside__folder.active::before {
   transform: scaleY(1);
 }
 
-.aside-item {
+.aside__item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 70px;
 }
-.aside-item img {
+.aside__item img {
   margin-bottom: 5px;
 }
-.aside-item span {
-  white-space: nowrap;
+.aside__item .folder__name {
+  max-width: inherit;
   font-size: 12px;
   font-weight: 500;
+}
+.aside__item .aside__new-folder-name {
+  width: 70px;
 }
 
 .header {
@@ -300,18 +300,22 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   align-items: center;
   margin-left: auto;
 }
-.user-avatar {
+.user__avatar {
   margin-bottom: 5px;
   width: 40px;
 }
+.user__name {
+  font-weight: 600;
+}
 
 .content {
-  padding: 50px;
+  padding: 50px 15px 50px 50px;
   grid-area: content;
 }
 
 .notes {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   gap: 50px;
@@ -351,9 +355,9 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   font-weight: 600;
   font-size: 16px;
 }
-.note__header-tooltip .tooltiptext {
-  width: 150px;
-  top: 0%;
+.note__header .note__tooltip .tooltiptext {
+  width: 125px;
+  top: -50%;
   right: 150%;
 }
 
@@ -416,26 +420,26 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   font-size: 20px;
 }
 
-.popup-card__title {
+.popup__note-title {
   font-weight: 600;
   font-size: 20px;
 }
 
-.new-note {
+.note-list {
   margin-top: 30px;
 }
-.new-note .data-field {
+.note-list .note-list__item {
   display: flex;
   flex-direction: column;
 }
-.new-note .placeholder {
+.note-list .popup__placeholder {
   font-weight: 500;
   font-size: 18px;
 }
-.new-note li:not(:last-child) {
+.note-list li:not(:last-child) {
   margin-bottom: 12px;
 }
-.new-note .note__input {
+.note-list .note__input {
   width: 200px;
   height: 30px;
   border-bottom: 2px solid rgba(204, 204, 204, 0.08);
@@ -448,12 +452,12 @@ button:hover, .signup-form__account-signin:hover, .login-form__account-signin:ho
   justify-content: space-between;
   margin-top: 12px;
 }
-.popup__footer-tooltip .tooltiptext {
+.popup__footer .popup__tooltip .tooltiptext {
   top: -50px;
   right: 150%;
 }
 
-.create-note {
+.popup__create-note {
   padding: 10px 15px;
   border-radius: 5px;
   background-color: rgb(32, 130, 50);
