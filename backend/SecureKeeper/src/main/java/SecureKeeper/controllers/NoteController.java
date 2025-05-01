@@ -23,6 +23,7 @@ import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.NoteService;
 
 // TODO: implement DTO
+// TODO: doc for NoteController, NoteService, NoteDTO, NoteUpdateDTO
 /* 
  * 
  * Endpoints for post/get/delete methods
@@ -62,7 +63,7 @@ public class NoteController {
 
     // Endpoint to get all notes associeted with folder
     @GetMapping("/folder/{folderId}")
-    public List<Note> getAllNotesByFolder(@PathVariable Long folderId) {
+    public List<NoteDTO> getAllNotesByFolder(@PathVariable Long folderId) {
         // Get the currently authenticated user
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currentUser  = userRepo.findByUsername(currentUsername);
@@ -71,12 +72,14 @@ public class NoteController {
         
         if (folder == null || !folder.getUser().getId().equals(currentUser .getId())) throw new RuntimeException("You are not allowed to acces this path");
 
-        return noteService.getAllNotesByFolder(folder);
+        return noteService.getAllNotesByFolder(folder).stream()
+            .map(NoteDTO::fromEntity)
+            .toList();
     }
 
     // Endpoint to get a note
     @GetMapping("/{noteId}")
-    public Note getNoteById(@PathVariable Long noteId) {
+    public NoteDTO getNoteById(@PathVariable Long noteId) {
         // Get current user id to check if it match id from url
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currUser = userRepo.findByUsername(currUsername);
@@ -86,9 +89,11 @@ public class NoteController {
 
         Folder folder = note.getFolder();
 
-        if(folder == null || !folder.getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to access this note");
+        if(folder == null || !folder.getUser().getId().equals(currUser.getId())) {
+            throw new RuntimeException("You are not allowed to access this note");
+        }
         
-        return note;
+        return NoteDTO.fromEntity(note);
     }
 
     // Endpoint to delete note

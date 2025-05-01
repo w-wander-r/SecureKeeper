@@ -1,6 +1,5 @@
 package SecureKeeper.models;
 
-// TODO: doc
 public record NoteDTO(
     Long id,
     String title,

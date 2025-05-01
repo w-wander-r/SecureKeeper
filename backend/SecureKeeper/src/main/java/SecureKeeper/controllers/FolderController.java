@@ -22,7 +22,7 @@ import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 
-// TODO: fix id requesting in json
+// TODO: doc for FolderController, FolderService, FolderDTO, FolderUpdateDTO
 /* 
 *
 * Endpoints for post/get/delete methods
