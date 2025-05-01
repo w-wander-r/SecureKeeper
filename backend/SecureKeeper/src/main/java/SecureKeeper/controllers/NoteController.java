@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import SecureKeeper.models.Folder;
 import SecureKeeper.models.Note;
+import SecureKeeper.models.NoteDTO;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.NoteService;
 
+// TODO: implement DTO
 /* 
  * 
  * Endpoints for post/get/delete methods
@@ -43,17 +45,19 @@ public class NoteController {
     private UserRepo userRepo;
 
     @PostMapping
-    public Note createNote(@RequestBody Note note) {
-        // Fetch the folder from the database using the folderID
-        Folder folder = folderRepo.findById(note.getFolder().getId()).orElse(null);
-
+    public NoteDTO createNote(@RequestBody NoteDTO noteDTO) {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currentUser = userRepo.findByUsername(currentUsername);
         
-        if (folder == null || !folder.getUser().getId().equals(currentUser.getId())) throw new RuntimeException("You are not allowed to acces this path");
+        Folder folder = folderRepo.findById(noteDTO.folderId()).orElse(null);
+        
+        if (folder == null || !folder.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("You are not allowed to access this path");
+        }
 
-        // Linking user with current folder
-        return noteService.createNote(note);
+        Note note = NoteDTO.toEntity(noteDTO, folder);
+        Note createdNote = noteService.createNote(note);
+        return NoteDTO.fromEntity(createdNote);
     }
 
     // Endpoint to get all notes associeted with folder

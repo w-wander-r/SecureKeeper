@@ -22,7 +22,6 @@ import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 
-// TODO: implement DTO
 // TODO: fix id requesting in json
 /* 
 *
