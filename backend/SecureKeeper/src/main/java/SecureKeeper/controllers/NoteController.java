@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import SecureKeeper.models.Folder;
 import SecureKeeper.models.Note;
 import SecureKeeper.models.NoteDTO;
+import SecureKeeper.models.NoteUpdateDTO;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.NoteRepo;
@@ -110,19 +111,24 @@ public class NoteController {
 
     // Endpoint to update note
     @PutMapping("/{noteId}")
-    public Note updateNote(@PathVariable Long noteId, @RequestBody Note note) {
+    public NoteDTO updateNote(@PathVariable Long noteId, @RequestBody NoteUpdateDTO updateDTO) {
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currUser = userRepo.findByUsername(currUsername);
         
-        // Current note will be updated in `updateNote` variable
-        Note updatedNote = noteRepo.findById(noteId).orElse(null);
+        Note existingNote = noteRepo.findById(noteId).orElse(null);
 
-        if(updatedNote == null || !updatedNote.getFolder().getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to access this note");
-        
-        updatedNote.update(note.getTitle(), note.getUsername(), note.getEmail(), note.getPassword());
+        if(existingNote == null || !existingNote.getFolder().getUser().getId().equals(currUser.getId())) {
+            throw new RuntimeException("You are not allowed to access this note");
+        }
 
-        noteRepo.save(updatedNote);
+        existingNote.update(
+            updateDTO.title(), 
+            updateDTO.username(), 
+            updateDTO.email(), 
+            updateDTO.password()
+        );
 
-        return updatedNote;
+        Note updateNote = noteRepo.save(existingNote);
+        return NoteDTO.fromEntity(updateNote);
     }
 }
