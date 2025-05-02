@@ -52,6 +52,13 @@
     border: 1px solid rgba(204, 204, 204, .25);
     border-radius: 5px;
   }
+  
+  &__error {
+    height: 1.25rem;
+    font-size: 0.8rem;
+    color: #e74c3c;
+    margin-top: -1rem;
+  }
 
   &__btn {
     width: 100%;
