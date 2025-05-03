@@ -23,6 +23,7 @@ import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 
 // TODO: doc for FolderController, FolderService, FolderDTO, FolderUpdateDTO
+// TODO: change approach to create folders (no id request)
 /* 
 *
 * Endpoints for post/get/delete methods

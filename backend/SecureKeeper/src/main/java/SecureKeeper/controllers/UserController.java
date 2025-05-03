@@ -10,7 +10,6 @@ import SecureKeeper.models.UserDTO;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.service.UserService;
 
-// TODO: fix id requesting in json
 // TODO: doc for UserController, UserService, UserDTO, UserPrincipal
 // Endpoints for Login and Register
 @RestController

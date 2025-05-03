@@ -23,8 +23,8 @@ import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.NoteService;
 
-// TODO: implement DTO
 // TODO: doc for NoteController, NoteService, NoteDTO, NoteUpdateDTO
+// TODO: change approach to create notes (no id request)
 /* 
  * 
  * Endpoints for post/get/delete methods
