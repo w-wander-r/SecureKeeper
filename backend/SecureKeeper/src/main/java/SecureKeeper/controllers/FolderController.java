@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import SecureKeeper.models.Folder;
+import SecureKeeper.models.FolderCreationRequest;
 import SecureKeeper.models.FolderDTO;
 import SecureKeeper.models.FolderUpdateDTO;
 import SecureKeeper.models.UsersModel;
@@ -43,19 +44,14 @@ public class FolderController {
     private FolderRepo folderRepo;
 
     @PostMapping
-    public FolderDTO createFolder(@RequestBody FolderDTO folderDTO) {
-
+    public FolderDTO createFolder(@RequestBody FolderCreationRequest request) {
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currUser = userRepo.findByUsername(currUsername);
-
-        if(!currUser.getId().equals(folderDTO.userId())) {
-            throw new RuntimeException("You are not allowed to access this path");
-        }
         
-        Folder folder = FolderDTO.toEntity(folderDTO, currUser);
-        Folder createFolder = folderService.createFolder(folder);
+        Folder folder = new Folder(request.name(), currUser);
+        Folder createdFolder = folderService.createFolder(folder);
 
-        return FolderDTO.fromEntity(createFolder);
+        return FolderDTO.fromEntity(createdFolder);
     }
 
     // Endpoint to get all folders from current user
