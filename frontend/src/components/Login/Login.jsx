@@ -4,62 +4,55 @@ import { useState, useEffect } from 'react';
 import './_login.scss';
 import { LogoIcon, LoginIcon } from '../icons/Icons';
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [usernameDirty, setUsernameDirty] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
-  const [usernameError, setUsernameError] = useState('Username cannot be empty');
-  const [passwordError, setPasswordError] = useState('Password cannot be empty');
-  const [counter, setCounter] = useState(0);
-  const [formValid, setFormValid] = useState(false);
+const useValidation = (value, validations) => {
+  const [minLength, setMinLength] = useState(false);
+  const [maxLength, setMaxLength] = useState(false);
+  const [isEmpty, setEmpty] = useState(true);
 
   useEffect(() => {
-    if (usernameError !== '' || passwordError !== '') {
-      setFormValid(false);
-    } else {
-      setFormValid(true);
-    }
-  }, [usernameError, passwordError]);
+    for (const validation in validations) {
+      switch (validation) {
+        case 'minLength':
+          value.length < validations[validation] ? setMinLength(true) : setMinLength(false);
+          break;
 
-  const usernameHandler = (e) => {
-    const value = e.target.value;
-    setUsername(value);
-    const re = /^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$/;
-    if (value.length === 0) {
-      setUsernameError('Username cannot be empty');
-    } else if (!re.test(value)) {
-      setUsernameError('Incorrect username');
-    } else {
-      setUsernameError('');
+        case 'maxLength':
+          value.length > validations[validation] ? setMaxLength(true) : setMaxLength(false);
+          break;
+
+        case 'isEmpty':
+          value ? setEmpty(false) : setEmpty(true);
+          break;
+
+        default:
+          break;
+      }
     }
+  }, [value, validations]);
+
+  return { minLength, maxLength, isEmpty };
+}
+
+const useInput = (initialValue, validations) => {
+  const [value, setValue] = useState(initialValue);
+  const [isDirty, setDirty] = useState(false);
+  const valid = useValidation(value, validations);
+
+  const onChange = (e) => {
+    setValue(e.target.value);
   };
 
-  const passwordHandler = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-    if (value.length === 0) {
-      setPasswordError('Password cannot be empty');
-    } else if (value.length < 8 || value.length > 20) {
-      setPasswordError('Password must be between 8 and 20 characters');
-    } else {
-      setPasswordError('');
-    }
-  }
-
-  const blurHandler = (e) => {
-    switch (e.target.name) {
-      case 'username':
-        setUsernameDirty(true);
-        break;
-
-      case 'password':
-        setPasswordDirty(true);
-        break;
-
-      default:
-    }
+  const onBlur = (e) => {
+    setDirty(true);
   };
+
+  return { value, onChange, onBlur, isDirty, ...valid };
+}
+
+const Login = () => {
+  const username = useInput('', { isEmpty: true, minLength: 8, maxLength: 16 });
+  const password = useInput('', { isEmpty: true, minLength: 8, maxLength: 20 });
+  const [counter, setCounter] = useState(0);
 
   return (
     <div className="login">
@@ -69,20 +62,22 @@ const Login = () => {
       <div className='signup-form'>
         <form className='signup-form__form'>
           <label className="signup-form__label">Username</label>
-          <input onChange={usernameHandler} value={username} name="username" onBlur={e => blurHandler(e)} type='text' className="signup-form__input" required />
+          <input onChange={e => username.onChange(e)} onBlur={e => username.onBlur(e)} value={username.value} type='text' className="signup-form__input" minLength="8" maxLength="16" required />
           <div className="signup-form__error">
-            {usernameDirty && usernameError && <span>{usernameError}</span>}
+            {(username.isDirty && username.isEmpty && <span>Field cannot be empty</span>) ||
+            (username.isDirty && (username.minLength || username.maxLength) && <span>Field must be between 8 and 16 characters</span>)}
           </div>
       
           <label htmlFor="password-login" className="signup-form__label">Password
             <span className='signup-form__input-counter' style={{ color: counter < 8 || counter > 20 ? "red" : "green" }}>{counter}/20</span>
           </label>
-          <input onChange={passwordHandler} value={password} name="password" onBlur={e => blurHandler(e)} onInput={e => setCounter(e.target.value.length)} type='password' className="signup-form__input" minLength={8} maxLength={20} required />
+          <input onChange={e => password.onChange(e)} onBlur={e => password.onBlur(e)} value={password.value} onInput={e => setCounter(e.target.value.length)} type='password' className="signup-form__input" minLength="8" maxLength="20" required />
           <div className="signup-form__error">
-            {passwordDirty && passwordError && <span>{passwordError}</span>}
+            {(password.isDirty && password.isEmpty && <span>Field cannot be empty</span>) ||
+            (password.isDirty && (password.minLength || password.maxLength) && <span>Field must be between 8 and 20 characters</span>)}
           </div>
 
-          <button disabled={!formValid} type='submit' className="signup-form__btn" style={{ cursor: !formValid ? 'not-allowed' : 'pointer' }}>Sign up</button>
+          <button type='submit' className="signup-form__btn">Sign up</button>
         </form>
 
         <span className='or'>Or</span>
