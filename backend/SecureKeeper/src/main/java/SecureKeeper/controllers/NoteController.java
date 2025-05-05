@@ -24,7 +24,6 @@ import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.NoteService;
 
 // TODO: doc for NoteController, NoteService, NoteDTO, NoteUpdateDTO
-// TODO: change approach to create notes (no id request)
 /* 
  * 
  * Endpoints for post/get/delete methods
@@ -71,7 +70,9 @@ public class NoteController {
 
         Folder folder = folderRepo.findById(folderId).orElse(null);
         
-        if (folder == null || !folder.getUser().getId().equals(currentUser .getId())) throw new RuntimeException("You are not allowed to acces this path");
+        if (folder == null || !folder.getUser().getId().equals(currentUser .getId())) {
+            throw new RuntimeException("You are not allowed to acces this path");
+        }
 
         return noteService.getAllNotesByFolder(folder).stream()
             .map(NoteDTO::fromEntity)
@@ -104,7 +105,9 @@ public class NoteController {
         UsersModel currUser = userRepo.findByUsername(currUsername);
 
         Note note = noteRepo.findById(noteId).orElse(null);
-        if(note == null || !note.getFolder().getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to access this note");
+        if(note == null || !note.getFolder().getUser().getId().equals(currUser.getId())) {
+            throw new RuntimeException("You are not allowed to access this note");
+        }
 
         noteService.deleteNote(noteId);
     }

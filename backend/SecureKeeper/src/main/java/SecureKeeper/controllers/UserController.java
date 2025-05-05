@@ -10,8 +10,15 @@ import SecureKeeper.models.UserDTO;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.service.UserService;
 
-// TODO: doc for UserController, UserService, UserDTO, UserPrincipal
-// Endpoints for Login and Register
+/**
+ * Controller handling user authentication operations including registration and login.
+ * 
+ * <p>Cross-origin requests are allowed from http://localhost:8080 for development purposes.</p>
+ * 
+ * @see UserService
+ * @see UsersModel
+ * @see UserDTO
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
 public class UserController {
@@ -19,6 +26,23 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    /**
+     * Registers a new user in the system.
+     * 
+     * <p>This endpoint accepts user credentials and creates a new user account.
+     * The password hashed before storage by the UserService.</p>
+     * 
+     * @param userDTO Data Transfer Object containing username and password for registration
+     * @return UserDTO containing the registered user's information (excluding sensitive data)
+     * 
+     * @apiNote Example request body in JSON:
+     * <pre>
+     * {
+     *     "username": "user",
+     *     "password": "password"
+     * }
+     * </pre>
+     */
     @PostMapping("/register")
     public UserDTO register(@RequestBody UserDTO userDTO) {
         UsersModel user = new UsersModel();
@@ -33,6 +57,25 @@ public class UserController {
         return savedUserDTO;
     }
 
+    /**
+     * Authenticates a user and generates an access token.
+     * 
+     * <p>This endpoint verifies user credentials and returns an authentication token
+     * upon successful verification. The token should be used for subsequent authenticated requests.</p>
+     * 
+     * @param userDTO Data Transfer Object containing username and password for authentication
+     * @return String containing the JWT token or session identifier upon successful authentication
+     * @throws SecurityException if authentication fails due to invalid credentials
+     * @throws RuntimeException if there's an issue during the authentication process
+     * 
+     * @apiNote Example request body:
+     * <pre>
+     * {
+     *     "username": "existingUser",
+     *     "password": "correctPassword"
+     * }
+     * </pre>
+     */
     @PostMapping("/login")
     public String login(@RequestBody UserDTO userDTO) {
         UsersModel user = new UsersModel();
