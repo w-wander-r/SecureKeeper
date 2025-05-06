@@ -1,6 +1,7 @@
 package SecureKeeper.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import SecureKeeper.models.UserDTO;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.service.UserService;
 
+// TODO: validation
 /**
  * Controller handling user authentication operations including registration and login.
  * 
@@ -44,7 +46,14 @@ public class UserController {
      * </pre>
      */
     @PostMapping("/register")
-    public UserDTO register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
+        
+        if(service.usernameExists(userDTO.getUsername())) {
+            return ResponseEntity.
+                badRequest()
+                .body("Username already exists");
+        }
+        
         UsersModel user = new UsersModel();
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
@@ -54,7 +63,7 @@ public class UserController {
         savedUserDTO.setUsername(savedUser.getUsername());
         savedUserDTO.setPassword(savedUser.getPassword());
 
-        return savedUserDTO;
+        return ResponseEntity.ok(userDTO);
     }
 
     /**

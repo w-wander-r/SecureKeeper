@@ -45,7 +45,7 @@ public class FolderController {
     @PostMapping
     public FolderDTO createFolder(@RequestBody FolderCreationRequest request) {
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currUser = userRepo.findByUsername(currUsername);
+        UsersModel currUser = userRepo.findByUsername(currUsername).orElse(null);
         
         Folder folder = new Folder(request.name(), currUser);
         Folder createdFolder = folderService.createFolder(folder);
@@ -58,7 +58,7 @@ public class FolderController {
     public List<FolderDTO> getAllFoldersByUser(@PathVariable Long userId) {
         // Get current user id to check if it match id from url
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currUser = userRepo.findByUsername(currUsername);
+        UsersModel currUser = userRepo.findByUsername(currUsername).orElse(null);
 
         if (!currUser.getId().equals(userId)) { throw new RuntimeException("You are not allowed to acces this path"); }
 
@@ -72,7 +72,7 @@ public class FolderController {
     public FolderDTO getFolderById(@PathVariable Long folderId) {
         // Get current user id to check if it match id from url
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currUser = userRepo.findByUsername(currUsername);
+        UsersModel currUser = userRepo.findByUsername(currUsername).orElse(null);
 
         Folder folder = folderRepo.findById(folderId).orElse(null);
 
@@ -88,7 +88,7 @@ public class FolderController {
     public void deleteFolder(@PathVariable Long folderId) {
         
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currUser = userRepo.findByUsername(currUsername);
+        UsersModel currUser = userRepo.findByUsername(currUsername).orElse(null);
 
         Folder folder = folderRepo.findById(folderId).orElse(null);
         if(folder == null || !folder.getUser().getId().equals(currUser.getId())) throw new RuntimeException("You are not allowed to acces this path");
@@ -103,7 +103,7 @@ public class FolderController {
         @RequestBody FolderUpdateDTO folderUpdateDTO
     ) {
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currUser  = userRepo.findByUsername(currUsername);
+        UsersModel currUser  = userRepo.findByUsername(currUsername).orElse(null);
 
         Folder folder = folderRepo.findById(folderId).orElse(null);
         

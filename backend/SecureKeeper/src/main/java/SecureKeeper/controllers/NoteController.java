@@ -48,7 +48,7 @@ public class NoteController {
     @PostMapping
     public NoteDTO createNote(@RequestBody NoteDTO noteDTO) {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currentUser = userRepo.findByUsername(currentUsername);
+        UsersModel currentUser = userRepo.findByUsername(currentUsername).orElse(null);
         
         Folder folder = folderRepo.findById(noteDTO.folderId()).orElse(null);
         
@@ -66,7 +66,7 @@ public class NoteController {
     public List<NoteDTO> getAllNotesByFolder(@PathVariable Long folderId) {
         // Get the currently authenticated user
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currentUser  = userRepo.findByUsername(currentUsername);
+        UsersModel currentUser  = userRepo.findByUsername(currentUsername).orElse(null);
 
         Folder folder = folderRepo.findById(folderId).orElse(null);
         
@@ -84,7 +84,7 @@ public class NoteController {
     public NoteDTO getNoteById(@PathVariable Long noteId) {
         // Get current user id to check if it match id from url
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currUser = userRepo.findByUsername(currUsername);
+        UsersModel currUser = userRepo.findByUsername(currUsername).orElse(null);
 
         Note note = noteRepo.findById(noteId).orElse(null);
         if(note == null) throw new RuntimeException("Note not found");
@@ -102,7 +102,7 @@ public class NoteController {
     @DeleteMapping("/{noteId}")
     public void deleteNote(@PathVariable Long noteId) {
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currUser = userRepo.findByUsername(currUsername);
+        UsersModel currUser = userRepo.findByUsername(currUsername).orElse(null);
 
         Note note = noteRepo.findById(noteId).orElse(null);
         if(note == null || !note.getFolder().getUser().getId().equals(currUser.getId())) {
@@ -116,7 +116,7 @@ public class NoteController {
     @PutMapping("/{noteId}")
     public NoteDTO updateNote(@PathVariable Long noteId, @RequestBody NoteUpdateDTO updateDTO) {
         String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currUser = userRepo.findByUsername(currUsername);
+        UsersModel currUser = userRepo.findByUsername(currUsername).orElse(null);
         
         Note existingNote = noteRepo.findById(noteId).orElse(null);
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.UserRepo;
 
+// TODO: split this class (interface + impl)
 /**
  * Service layer for user authentication and registration operations.
  * Handles core business logic for user management including password encryption,
@@ -80,5 +81,9 @@ public class UserService {
          authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
         return authentication.isAuthenticated() ? jwtService.generateToken(user.getUsername()) : "err";
+    }
+
+    public boolean usernameExists(String username) {
+        return repo.findByUsername(username).isPresent();
     }
 }
