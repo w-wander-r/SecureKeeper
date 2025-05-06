@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.UserRepo;
 
-// TODO: split this class (interface + impl)
 /**
  * Service layer for user authentication and registration operations.
  * Handles core business logic for user management including password encryption,

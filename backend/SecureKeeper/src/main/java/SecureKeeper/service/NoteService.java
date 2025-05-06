@@ -9,7 +9,6 @@ import SecureKeeper.models.Folder;
 import SecureKeeper.models.Note;
 import SecureKeeper.repo.NoteRepo;
 
-// TODO: split this class (interface + impl)
 @Service
 public class NoteService {
 

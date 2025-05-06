@@ -2,6 +2,10 @@ package SecureKeeper.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 /**
  * Data Transfer Object (DTO) for user authentication operations.
  * 
@@ -22,6 +26,9 @@ public class UserDTO {
      * The username for authentication or registration.
      * Must be unique across the system for registration purposes.
      */
+    @NotBlank(message = "Username cannot blank")
+    @Size(min = 3, max = 30, message = "Username must be between 3 and 30 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username can only contain letters, numbers and underscores")
     private String username;
 
     /**
@@ -37,6 +44,8 @@ public class UserDTO {
      * @see com.fasterxml.jackson.annotation.JsonProperty.Access
      */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotBlank(message = "Password cannot be blank")
+    @Size(min = 8, max = 64, message = "Password must be between 8 and 64 characters")
     private String password;
 
     public String getUsername() {

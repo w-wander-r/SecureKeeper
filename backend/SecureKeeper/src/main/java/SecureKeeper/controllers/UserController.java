@@ -1,7 +1,14 @@
 package SecureKeeper.controllers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import SecureKeeper.models.UserDTO;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.service.UserService;
+import jakarta.validation.Valid;
 
 // TODO: validation
 /**
@@ -46,11 +54,19 @@ public class UserController {
      * </pre>
      */
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
         
-        if(service.usernameExists(userDTO.getUsername())) {
-            return ResponseEntity.
-                badRequest()
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        if (service.usernameExists(userDTO.getUsername())) {
+            return ResponseEntity
+                .badRequest()
                 .body("Username already exists");
         }
         
@@ -86,11 +102,22 @@ public class UserController {
      * </pre>
      */
     @PostMapping("/login")
-    public String login(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.badRequest().body(errors);
+        }
         UsersModel user = new UsersModel();
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
 
-        return service.verify(user);
+        try {
+            return ResponseEntity.ok(service.verify(user));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 }

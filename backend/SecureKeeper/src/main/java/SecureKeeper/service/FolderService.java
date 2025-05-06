@@ -9,7 +9,6 @@ import SecureKeeper.models.Folder;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.FolderRepo;
 
-// TODO: split this class (interface + impl)
 @Service
 public class FolderService {
 
