@@ -19,7 +19,6 @@ import SecureKeeper.models.UsersModel;
 import SecureKeeper.service.UserService;
 import jakarta.validation.Valid;
 
-// TODO: validation
 /**
  * Controller handling user authentication operations including registration and login.
  * 
