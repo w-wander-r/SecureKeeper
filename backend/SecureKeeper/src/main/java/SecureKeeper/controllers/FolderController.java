@@ -25,7 +25,6 @@ import SecureKeeper.service.FolderService;
 import jakarta.validation.Valid;
 
 // TODO: doc for FolderController, FolderService, FolderDTO, FolderUpdateDTO
-// TODO: validation
 @RestController
 @RequestMapping("api/folders")
 public class FolderController {
