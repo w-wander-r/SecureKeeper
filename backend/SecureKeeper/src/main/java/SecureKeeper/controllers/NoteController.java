@@ -25,7 +25,6 @@ import SecureKeeper.service.NoteService;
 import jakarta.validation.Valid;
 
 // TODO: doc for NoteController, NoteService, NoteDTO, NoteUpdateDTO
-// TODO: test password saving (delete validation)
 /* 
  * 
  * Endpoints for post/get/delete methods
@@ -116,7 +115,7 @@ public class NoteController {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersModel currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
 
-        Note note = noteRepo.findById(noteId).orElse(null);
+        Note note = noteRepo.findById(noteId).orElseThrow(() -> new RuntimeException("Note not found"));
         if(!note.getFolder().getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You are not allowed to access this note");
         }

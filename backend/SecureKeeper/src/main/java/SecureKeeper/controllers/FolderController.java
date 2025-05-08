@@ -24,7 +24,23 @@ import SecureKeeper.repo.UserRepo;
 import SecureKeeper.service.FolderService;
 import jakarta.validation.Valid;
 
-// TODO: doc for FolderController, FolderService, FolderDTO, FolderUpdateDTO
+/**
+ * REST controller for managing folder operations
+ * Provides endpoints for creating, retrieving, updating, and deleting folders.
+ * All operations can only be performed by the authenticated user
+ * who owns the folders.
+ * 
+ * <p>This controller ensures that:
+ * <ul>
+ *   <li>Users can only access their own folders</li>
+ *   <li>All input is sanitized</li>
+ *   <li>Folder operations are validated</li>
+ * </ul>
+ * 
+ * @see FolderService
+ * @see FolderDTO
+ * @see FolderUpdateDTO
+ */
 @RestController
 @RequestMapping("api/folders")
 public class FolderController {
@@ -118,6 +134,12 @@ public class FolderController {
         return FolderDTO.fromEntity(updatedFolder);
     }
 
+    /**
+     * Sanitizes input by removing potentially dangerous characters.
+     * 
+     * @param input The string to sanitize
+     * @return The sanitized string with HTML tags and quotes removed, or null if input was null
+     */
     private String sanitizeInput(String input) {
         if (input == null) { return null; }
         
