@@ -4,6 +4,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Data Transfer Object for updating note information.
+ * Represents the updatable fields of a note with validation constraints.
+ * All fields are optional except where noted, allowing for partial updates.
+ */
 public record NoteUpdateDTO(
 
     @NotBlank(message = "Title cannot be null")

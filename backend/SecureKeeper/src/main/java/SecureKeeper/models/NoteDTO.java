@@ -5,6 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Data Transfer Object representing a complete Note entity.
+ * Used for transferring note data between layers of the application
+ * and for input/output operations. Includes validation constraints
+ * for all fields and conversion methods to/from entity objects.
+ */
 public record NoteDTO(
     Long id,
     @NotBlank(message = "Title cannot be null")
@@ -25,6 +31,13 @@ public record NoteDTO(
     @NotNull(message = "Folder ID cannot be null")
     Long folderId
 ) {
+    /**
+     * Converts a Note entity to a NoteDTO.
+     * 
+     * @param note The Note entity to convert
+     * @return NoteDTO containing the entity's data
+     * @throws IllegalArgumentException if the note parameter is null
+     */
     public static NoteDTO fromEntity(Note note) {
         return new NoteDTO(
             note.getId(),
@@ -36,6 +49,14 @@ public record NoteDTO(
         );
     }
 
+    /**
+     * Converts this NoteDTO to a Note entity.
+     * 
+     * @param dto The NoteDTO to convert
+     * @param folder The Folder entity this note belongs to
+     * @return Note entity populated with DTO data
+     * @throws IllegalArgumentException if either parameter is null
+     */
     public static Note toEntity(NoteDTO dto, Folder folder) {
         Note note = new Note();
         note.setId(dto.id());

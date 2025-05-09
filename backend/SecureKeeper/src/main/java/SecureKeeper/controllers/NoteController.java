@@ -25,11 +25,16 @@ import SecureKeeper.service.NoteService;
 import jakarta.validation.Valid;
 
 // TODO: doc for NoteController, NoteService, NoteDTO, NoteUpdateDTO
-/* 
+/**
+ * REST controller for managing notes in the SecureKeeper application.
+ * Provides endpoints for creating, retrieving, updating, and deleting notes.
+ * All operations are secured and require authentication, with checks to ensure
+ * users can only access their own notes.
  * 
- * Endpoints for post/get/delete methods
- *
-*/
+ * @see NoteService
+ * @see NoteDTO
+ * @see NoteUpdateDTO
+ */
 @RestController
 @RequestMapping("api/notes")
 public class NoteController {
@@ -147,12 +152,24 @@ public class NoteController {
     }
 
     // TODO: same method in FolderController
+    /**
+     * Sanitizes input by removing potentially dangerous characters.
+     * 
+     * @param input The string to sanitize
+     * @return Sanitized string with HTML/script tags removed, or null if input was null
+     */
     private String sanitizeInput(String input) {
         if(input == null) { return null; }
 
         return input.replaceAll("[<>\"']", "");
     }
 
+    /**
+     * Sanitizes email input by removing potentially dangerous characters.
+     * 
+     * @param email The email string to sanitize
+     * @return Sanitized email string with dangerous characters removed, or null if input was null
+     */
     private String sanitizeEmail(String email) {
         if(email == null) { return null; }
 
