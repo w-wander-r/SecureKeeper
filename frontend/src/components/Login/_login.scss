@@ -10,7 +10,38 @@
   }
 }
 
-.signup-form {
+.auth-container {
+  max-width: 400px;
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-weight: bold;
+  color: #888;
+}
+
+.tab.active {
+  border-bottom: 2px solid #007bff;
+  color: #FFF;
+}
+
+.auth-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,12 +54,13 @@
   border-radius: 10px;
 
   &__form {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    width: 100%;
+    width: 270px;
   }
 
   &__label {
