@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import './_login.scss';
-import { LogoIcon, LoginIcon } from '../icons/Icons';
+import { LogoIcon, LoginIcon } from '../../components/icons/Icons';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -21,6 +22,12 @@ const Login = () => {
       setFormValid(true);
     }
   }, [usernameError, passwordError]);
+
+  const handleClick = (e) => {
+    if (!formValid) {
+      e.preventDefault();
+    }
+  };
 
   const usernameHandler = (e) => {
     const value = e.target.value;
@@ -82,7 +89,7 @@ const Login = () => {
             {passwordDirty && passwordError && <span>{passwordError}</span>}
           </div>
 
-          <button disabled={!formValid} type='submit' className="signup-form__btn" style={{ cursor: !formValid ? 'not-allowed' : 'pointer' }}>Sign up</button>
+          <NavLink to="/Home" onClick={handleClick} type='submit' className="signup-form__btn" style={{ cursor: !formValid ? 'not-allowed' : 'pointer' }}>Sign up</NavLink>
         </form>
 
         <span className='or'>Or</span>
