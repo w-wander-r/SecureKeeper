@@ -71,22 +71,25 @@ const Login = () => {
   return (
     <div className="login">
       <LogoIcon/>
-      <h1 className='login__title'>Sign up to SecureKeeper</h1>
+      <h1 className='login__title'>Welcome to SecureKeeper!</h1>
 
-      <div className='signup-form'>
-        <form className='signup-form__form'>
-          <label className="signup-form__label">Username</label>
-          <input onChange={usernameHandler} value={username} name="username" onBlur={e => blurHandler(e)} type='text' className="signup-form__input" required />
-          <div className="signup-form__error">
-            {usernameDirty && usernameError && <span>{usernameError}</span>}
+      <div className="auth-container">
+          <div className="tabs">
+            <button
+              className={isSignIn ? 'tab active' : 'tab'}
+              onClick={() => setIsSignIn(true)}
+            >
+              SIGN IN
+            </button>
+            <button
+              className={!isSignIn ? 'tab active' : 'tab'}
+              onClick={() => setIsSignIn(false)}
+            >
+              REGISTER
+            </button>
           </div>
-      
-          <label htmlFor="password-login" className="signup-form__label">Password
-            <span className='signup-form__input-counter' style={{ color: counter < 8 || counter > 20 ? "red" : "green" }}>{counter}/20</span>
-          </label>
-          <input onChange={passwordHandler} value={password} name="password" onBlur={e => blurHandler(e)} onInput={e => setCounter(e.target.value.length)} type='password' className="signup-form__input" minLength={8} maxLength={20} required />
-          <div className="signup-form__error">
-            {passwordDirty && passwordError && <span>{passwordError}</span>}
+          <div className="form-container">
+            {isSignIn ? <SignInForm onSwitch={() => setIsSignIn(false)} /> : <RegisterForm onSwitch={() => setIsSignIn(true)} />}
           </div>
 
           <NavLink to="/Home" onClick={handleClick} type='submit' className="signup-form__btn" style={{ cursor: !formValid ? 'not-allowed' : 'pointer' }}>Sign up</NavLink>

@@ -9,6 +9,12 @@ import SecureKeeper.models.Folder;
 import SecureKeeper.models.Note;
 import SecureKeeper.repo.NoteRepo;
 
+
+/**
+ * Service layer for note-related operations in the SecureKeeper application.
+ * Handles business logic for creating, retrieving, and deleting notes.
+ * Works in conjunction with NoteRepository to persist note data.
+ */
 @Service
 public class NoteService {
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Route, Routes } from 'react-router-dom';
+=======
+// import { BrowserRouter, Routes, Route } from 'react-router-dom';
+>>>>>>> main
 
 import './styles/main.scss'
 import Login from './Pages/LoginPage/Login';

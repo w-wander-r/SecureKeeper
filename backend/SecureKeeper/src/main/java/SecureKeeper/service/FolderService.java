@@ -9,6 +9,20 @@ import SecureKeeper.models.Folder;
 import SecureKeeper.models.UsersModel;
 import SecureKeeper.repo.FolderRepo;
 
+/**
+ * Service layer for folder-related operations.
+ * Handles business logic for folder creation, retrieval, and deletion.
+ * 
+ * <p>This service works with the {@link FolderRepo} to persist and retrieve folder data,
+ * and provides the following functionality:
+ * <ul>
+ *   <li>Create new folders</li>
+ *   <li>Retrieve folders by user or ID</li>
+ *   <li>Delete existing folders</li>
+ * </ul>
+ * 
+ * @see FolderRepo
+ */
 @Service
 public class FolderService {
 
