@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 
 import "./_login.scss";
 import { LoginIcon, NewAccIcon } from "../icons/Icons";
@@ -9,11 +10,34 @@ export function SignInForm({ onSwitch }) {
   const username = useInput('', { isEmpty: true, minLength: 8, maxLength: 16 });
   const password = useInput('', { isEmpty: true, minLength: 8, maxLength: 20 });
   const [counter, setCounter] = useState(0);
-  const isDisabled = !username.inputValid || !password.inputValid;
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const isDisabled = !username.inputValid || !password.inputValid || isLoading;
   
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await axios.post('http://localhost:8090/login', {
+        username: username.value,
+        password: password.value
+      });
+      
+      console.log('Login successful:', response.data);
+      // Handle successful login (store token, redirect, etc.)
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Login failed');
+      console.error('Login error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
-      <form className="auth-container__form">
+      <form className="auth-container__form" onSubmit={handleSubmit}>
         <label className="auth-container__label">Username</label>
         <input
           onChange={(e) => username.onChange(e)}
@@ -63,13 +87,15 @@ export function SignInForm({ onSwitch }) {
             ))}
         </div>
 
+        {error && <div className="auth-container__error">{error}</div>}
+
         <button
           disabled={isDisabled}
           type="submit"
           className="auth-container__btn"
           style={{ cursor: isDisabled ? "not-allowed" : "pointer" }}
         >
-          Sign in
+          {isLoading ? 'Signing in...' : 'Sign in'}
         </button>
 
         <span className="or">or</span>
@@ -90,11 +116,35 @@ export function RegisterForm({ onSwitch }) {
   const username = useInput('', { isEmpty: true, minLength: 8, maxLength: 16 });
   const password = useInput('', { isEmpty: true, minLength: 8, maxLength: 20 });
   const [counter, setCounter] = useState(0);
-  const isDisabled = !username.inputValid || !password.inputValid;
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const isDisabled = !username.inputValid || !password.inputValid || isLoading;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await axios.post('http://localhost:8090/register', {
+        username: username.value,
+        password: password.value
+      });
+      
+      console.log('Registration successful:', response.data);
+      // Handle successful registration (redirect to login, show success message, etc.)
+      onSwitch(); // Optionally switch to login form after successful registration
+    } catch (err) {
+      setError(err.response?.data?.message || err.response?.data || err.message || 'Registration failed');
+      console.error('Registration error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
-      <form className="auth-container__form">
+      <form className="auth-container__form" onSubmit={handleSubmit}>
         <label className="auth-container__label">Username</label>
         <input
           onChange={(e) => username.onChange(e)}
@@ -144,13 +194,15 @@ export function RegisterForm({ onSwitch }) {
             ))}
         </div>
 
+        {error && <div className="auth-container__error">{error}</div>}
+
         <button
           disabled={isDisabled}
           type="submit"
           className="auth-container__btn"
           style={{ cursor: isDisabled ? "not-allowed" : "pointer" }}
         >
-          Sign up
+          {isLoading ? 'Signing up...' : 'Sign up'}
         </button>
 
         <span className="or">or</span>
