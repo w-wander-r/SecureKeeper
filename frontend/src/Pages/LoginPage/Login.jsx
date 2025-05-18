@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import './_login.scss';
-import { LogoIcon, LoginIcon } from '../../components/icons/Icons';
+import { RegisterForm, SignInForm } from './Forms';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -14,6 +14,7 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState('Password cannot be empty');
   const [counter, setCounter] = useState(0);
   const [formValid, setFormValid] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);
 
   useEffect(() => {
     if (usernameError !== '' || passwordError !== '') {
@@ -70,7 +71,7 @@ const Login = () => {
 
   return (
     <div className="login">
-      <LogoIcon/>
+      {/* <LogoIcon/> */}
       <h1 className='login__title'>Welcome to SecureKeeper!</h1>
 
       <div className="auth-container">
@@ -93,11 +94,12 @@ const Login = () => {
           </div>
 
           <NavLink to="/Home" onClick={handleClick} type='submit' className="signup-form__btn" style={{ cursor: !formValid ? 'not-allowed' : 'pointer' }}>Sign up</NavLink>
-        </form>
 
         <span className='or'>Or</span>
 
-        <button className='signup-form__account-signin'><LoginIcon/>Already have account?</button>
+        {/* TODO */}
+        {/* <button className='signup-form__account-signin'><LoginIcon/>Already have account?</button> */}
+        <button className='signup-form__account-signin'>Already have account?</button>
       </div>
     </div>
   )

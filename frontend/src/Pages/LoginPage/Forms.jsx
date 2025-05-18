@@ -3,8 +3,9 @@ import { useState } from "react";
 import axios from "axios";
 
 import "./_login.scss";
-import { LoginIcon, NewAccIcon } from "../icons/Icons";
-import useInput from "../Hooks/Validation";
+// Module not found: Error: Can't resolve '../icons/Icons' in '\src\Pages\LoginPage'
+// import { LoginIcon, NewAccIcon } from "../icons/Icons";
+import useInput from "../../components/Hooks/Validation";
 
 export function SignInForm({ onSwitch }) {
   const username = useInput('', { isEmpty: true, minLength: 8, maxLength: 16 });
@@ -105,7 +106,7 @@ export function SignInForm({ onSwitch }) {
         className="auth-container__account-signin"
         onClick={onSwitch}
       >
-        <LoginIcon />
+        {/* <LoginIcon /> */}
         Already have an account?
       </button>
     </>
@@ -212,7 +213,7 @@ export function RegisterForm({ onSwitch }) {
         className="auth-container__account-signin"
         onClick={onSwitch}
       >
-        <NewAccIcon />
+        {/* <NewAccIcon /> */}
         Don't have an account?
       </button>
     </>
