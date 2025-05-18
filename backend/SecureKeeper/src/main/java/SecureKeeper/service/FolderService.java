@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import SecureKeeper.models.Folder;
-import SecureKeeper.models.UsersModel;
+import SecureKeeper.models.User;
 import SecureKeeper.repo.FolderRepo;
 
 /**
@@ -33,7 +33,7 @@ public class FolderService {
         return folderRepo.save(folder);
     }
 
-    public List<Folder> getAllFoldersByUser(UsersModel user) {
+    public List<Folder> getAllFoldersByUser(User user) {
         return folderRepo.findByUser(user);
     }
 

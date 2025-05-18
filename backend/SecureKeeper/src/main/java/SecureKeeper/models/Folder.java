@@ -32,7 +32,7 @@ public class Folder {
     // @ManyToOne linking user with his folders
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UsersModel user;
+    private User user;
     
     // @OneToMany linking individual folder with notes
     // @JsonIgnore is solving circular reference
@@ -43,7 +43,7 @@ public class Folder {
     // Constructors
     public Folder() {}
     
-    public Folder(String name, UsersModel user) {
+    public Folder(String name, User user) {
         this.name = name;
         this.user = user;
     }
@@ -55,8 +55,8 @@ public class Folder {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public UsersModel getUser () {return user;}
-    public void setUser (UsersModel user) {this.user = user;}
+    public User getUser () {return user;}
+    public void setUser (User user) {this.user = user;}
 
     public List<Note> getNotes() {return notes;}
     public void setNotes(List<Note> notes) {this.notes = notes;}

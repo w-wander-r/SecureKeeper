@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import SecureKeeper.models.Folder;
-import SecureKeeper.models.UsersModel;
+import SecureKeeper.models.User;
 
 @Repository
 public interface FolderRepo extends JpaRepository<Folder, Long> {
-    List<Folder> findByUser(UsersModel user);
+    List<Folder> findByUser(User user);
 }

@@ -17,7 +17,7 @@ import SecureKeeper.models.Folder;
 import SecureKeeper.models.Note;
 import SecureKeeper.models.NoteDTO;
 import SecureKeeper.models.NoteUpdateDTO;
-import SecureKeeper.models.UsersModel;
+import SecureKeeper.models.User;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.repo.UserRepo;
@@ -54,7 +54,7 @@ public class NoteController {
     @PostMapping
     public NoteDTO createNote(@Valid @RequestBody NoteDTO noteDTO) {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
+        User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
         
         Folder folder = folderRepo.findById(noteDTO.folderId()).orElseThrow(() -> new RuntimeException("Folder not found"));
         
@@ -82,7 +82,7 @@ public class NoteController {
     public List<NoteDTO> getAllNotesByFolder(@PathVariable Long folderId) {
         // Get the currently authenticated user
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
+        User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
 
         Folder folder = folderRepo.findById(folderId).orElseThrow(() -> new RuntimeException("Folder not found"));
 
@@ -100,7 +100,7 @@ public class NoteController {
     public NoteDTO getNoteById(@PathVariable Long noteId) {
         // Get current user id to check if it match id from url
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
+        User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
 
         Note note = noteRepo.findById(noteId).orElse(null);
         if(note == null) throw new RuntimeException("Note not found");
@@ -118,7 +118,7 @@ public class NoteController {
     @DeleteMapping("/{noteId}")
     public void deleteNote(@PathVariable Long noteId) {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
+        User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
 
         Note note = noteRepo.findById(noteId).orElseThrow(() -> new RuntimeException("Note not found"));
         if(!note.getFolder().getUser().getId().equals(currentUser.getId())) {
@@ -132,7 +132,7 @@ public class NoteController {
     @PutMapping("/{noteId}")
     public NoteDTO updateNote(@PathVariable Long noteId, @RequestBody NoteUpdateDTO updateDTO) {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UsersModel currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
+        User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
         
         Note existingNote = noteRepo.findById(noteId).orElseThrow(() -> new RuntimeException("Note not found"));
 

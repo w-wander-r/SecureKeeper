@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import SecureKeeper.models.UserDTO;
-import SecureKeeper.models.UsersModel;
+import SecureKeeper.models.User;
 import SecureKeeper.service.UserService;
 import jakarta.validation.Valid;
 
 /**
  * Controller handling user authentication operations including registration and login.
  * 
- * <p>Cross-origin requests are allowed from http://localhost:8080 for development purposes.</p>
+ * <p>Cross-origin requests are allowed for development purposes.</p>
  * 
  * @see UserService
- * @see UsersModel
+ * @see User
  * @see UserDTO
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -69,10 +69,10 @@ public class UserController {
                 .body("Username already exists");
         }
         
-        UsersModel user = new UsersModel();
+        User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
-        UsersModel savedUser = service.register(user);
+        User savedUser = service.register(user);
 
         UserDTO savedUserDTO = new UserDTO();
         savedUserDTO.setUsername(savedUser.getUsername());
@@ -109,7 +109,7 @@ public class UserController {
             
             return ResponseEntity.badRequest().body(errors);
         }
-        UsersModel user = new UsersModel();
+        User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
 

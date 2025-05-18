@@ -9,7 +9,7 @@ package SecureKeeper.models;
  * <p>Provides bidirectional conversion methods between DTO and entity representations:
  * <ul>
  *   <li>{@link #fromEntity(Folder)} - Converts from entity to DTO</li>
- *   <li>{@link #toEntity(FolderDTO, UsersModel)} - Converts from DTO to entity</li>
+ *   <li>{@link #toEntity(FolderDTO, User)} - Converts from DTO to entity</li>
  * </ul>
  * 
  * @param id The unique identifier of the folder
@@ -41,7 +41,7 @@ public record FolderDTO(
      * @return New Folder entity populated with DTO data and associated user
      * @throws NullPointerException if either parameter is null
      */
-    public static Folder toEntity(FolderDTO dto, UsersModel user) {
+    public static Folder toEntity(FolderDTO dto, User user) {
         Folder folder = new Folder();
         folder.setName(dto.name());
         folder.setUser(user);

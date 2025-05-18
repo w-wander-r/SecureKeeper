@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import SecureKeeper.models.UsersModel;
+import SecureKeeper.models.User;
 import SecureKeeper.repo.UserRepo;
 
 /**
@@ -20,7 +20,7 @@ import SecureKeeper.repo.UserRepo;
  *
  * @see UserRepo
  * @see JWTService
- * @see UsersModel
+ * @see User
  */
 @Service
 public class UserService {
@@ -52,7 +52,7 @@ public class UserService {
      *
      * @implNote Uses BCrypt password hashing with strength 12 (2^12 iterations)
      */
-    public UsersModel register(UsersModel user) {
+    public User register(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         return repo.save(user);
     }
@@ -75,7 +75,7 @@ public class UserService {
      * @apiNote The returned token should be included in the Authorization header of subsequent requests
      * @see JWTService#generateToken(String)
      */
-    public String verify(UsersModel user) {
+    public String verify(User user) {
         Authentication authentication =
          authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 

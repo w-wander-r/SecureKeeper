@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import SecureKeeper.models.UserPrincipal;
-import SecureKeeper.models.UsersModel;
+import SecureKeeper.models.User;
 import SecureKeeper.repo.UserRepo;
 
 @Service
@@ -19,7 +19,7 @@ public class OwnUserDetailsService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-        UsersModel user = repo.findByUsername(username).orElse(null);
+        User user = repo.findByUsername(username).orElse(null);
 
         if(user == null) throw new UsernameNotFoundException("User not found");
         
