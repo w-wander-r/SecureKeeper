@@ -8,6 +8,9 @@
 		<version>3.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<packaging>jar</packaging>
+
 	<groupId>com.wander</groupId>
 	<artifactId>SecureKeeper</artifactId>
 	<version>1.0</version>

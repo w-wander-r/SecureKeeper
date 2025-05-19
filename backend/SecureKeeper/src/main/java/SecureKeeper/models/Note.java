@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 // Each note belong to user folder
+// TODO: hash user password before storing
 @Entity
 @Table(name = "notes")
 public class Note {
