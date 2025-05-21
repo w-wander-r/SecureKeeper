@@ -142,7 +142,7 @@ public class NoteController {
 
         existingNote.update(
             updateDTO.title() != null ? sanitizeInput(updateDTO.title()) : existingNote.getTitle(),
-            updateDTO.username() != null ? sanitizeInput(updateDTO.username()) : existingNote.getTitle(),
+            updateDTO.username() != null ? sanitizeInput(updateDTO.username()) : existingNote.getUsername(),
             updateDTO.email() != null ? sanitizeEmail(updateDTO.email()) : existingNote.getEmail(),
             updateDTO.password() != null ? sanitizeInput(updateDTO.password()) : existingNote.getPassword()
         );
