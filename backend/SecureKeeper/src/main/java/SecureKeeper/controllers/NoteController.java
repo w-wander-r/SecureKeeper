@@ -25,6 +25,7 @@ import SecureKeeper.service.NoteService;
 import jakarta.validation.Valid;
 
 // TODO: doc for NoteController, NoteService, NoteDTO, NoteUpdateDTO
+// TODO: encryption for note password: there should be encryption service first
 /**
  * REST controller for managing notes in the SecureKeeper application.
  * Provides endpoints for creating, retrieving, updating, and deleting notes.
