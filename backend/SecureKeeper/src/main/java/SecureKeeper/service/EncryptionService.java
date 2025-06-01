@@ -38,6 +38,7 @@ public class EncryptionService {
         }
     }
 
+    // TODO: fix decrypt method
     public String decrypt(String encryptedText) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);

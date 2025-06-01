@@ -17,20 +17,41 @@ import SecureKeeper.repo.NoteRepo;
  */
 @Service
 public class NoteService {
-
     @Autowired
     private NoteRepo noteRepo;
+    
+    @Autowired
+    private EncryptionService encryptionService;
 
+    // Create note with encrypted password
     public Note createNote(Note note) {
+        String encryptedPassword = encryptionService.encrypt(note.getPassword());
+        note.setPassword(encryptedPassword);
         return noteRepo.save(note);
     }
 
-    public List<Note> getAllNotesByFolder(Folder folder) {
-        return noteRepo.findByFolder(folder);
+    // Get note (password remains encrypted)
+    public Note getEncryptedNote(Long id) {
+        return noteRepo.findById(id).orElseThrow();
     }
 
-    public Note getNoteById(Long id) {
-        return noteRepo.findById(id).orElse(null);
+    // Get decrypted password (only when needed)
+    public String getDecryptedPassword(Long noteId) {
+        Note note = getEncryptedNote(noteId);
+        return encryptionService.decrypt(note.getPassword());
+    }
+
+    // Update note with password encryption
+    public Note updateNote(Note note) {
+        if (note.getPassword() != null) {
+            String encryptedPassword = encryptionService.encrypt(note.getPassword());
+            note.setPassword(encryptedPassword);
+        }
+        return noteRepo.save(note);
+    }
+
+     public List<Note> getAllNotesByFolder(Folder folder) {
+        return noteRepo.findByFolder(folder);
     }
 
     public void deleteNote(Long id) {

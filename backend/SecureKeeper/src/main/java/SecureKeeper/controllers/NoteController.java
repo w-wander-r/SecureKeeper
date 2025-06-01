@@ -21,6 +21,7 @@ import SecureKeeper.models.User;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.repo.UserRepo;
+import SecureKeeper.service.EncryptionService;
 import SecureKeeper.service.NoteService;
 import jakarta.validation.Valid;
 
@@ -52,6 +53,9 @@ public class NoteController {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private EncryptionService encryptionService;
+
     @PostMapping
     public NoteDTO createNote(@Valid @RequestBody NoteDTO noteDTO) {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -68,8 +72,9 @@ public class NoteController {
                 noteDTO.id(),
                 sanitizeInput(noteDTO.title()),
                 sanitizeInput(noteDTO.username()),
-                sanitizeInput(noteDTO.password()),
                 sanitizeEmail(noteDTO.email()),
+                // encryption
+                encryptionService.encrypt(sanitizeInput(noteDTO.password())),
                 noteDTO.folderId()), 
             folder
         );
@@ -112,7 +117,16 @@ public class NoteController {
             throw new RuntimeException("You are not allowed to access this note");
         }
         
-        return NoteDTO.fromEntity(note);
+        String decryptedPassword = encryptionService.decrypt(note.getPassword());
+        
+        return new NoteDTO(
+            note.getId(),
+            note.getTitle(),
+            note.getUsername(),
+            note.getEmail(),
+            decryptedPassword, // Return decrypted password
+            note.getFolder().getId()
+        );
     }
 
     // Endpoint to delete note
@@ -145,11 +159,16 @@ public class NoteController {
             updateDTO.title() != null ? sanitizeInput(updateDTO.title()) : existingNote.getTitle(),
             updateDTO.username() != null ? sanitizeInput(updateDTO.username()) : existingNote.getUsername(),
             updateDTO.email() != null ? sanitizeEmail(updateDTO.email()) : existingNote.getEmail(),
-            updateDTO.password() != null ? sanitizeInput(updateDTO.password()) : existingNote.getPassword()
+            updateDTO.password() != null ? encryptionService.encrypt(sanitizeInput(updateDTO.password())) : existingNote.getPassword()
         );
 
-        Note updateNote = noteRepo.save(existingNote);
-        return NoteDTO.fromEntity(updateNote);
+        Note updatedNote = noteRepo.save(existingNote);
+        return NoteDTO.fromEntity(updatedNote);
+    }
+
+    @GetMapping("/{noteId}/safe")
+    public NoteDTO getNoteSafe(@PathVariable Long noteId) {
+        return NoteDTO.fromEntity(noteRepo.findById(noteId).orElseThrow());
     }
 
     // TODO: same method in FolderController
