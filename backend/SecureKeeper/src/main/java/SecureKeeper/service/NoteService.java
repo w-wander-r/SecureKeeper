@@ -20,12 +20,13 @@ public class NoteService {
     @Autowired
     private NoteRepo noteRepo;
     
-    @Autowired
-    private EncryptionService encryptionService;
+    // @Autowired
+    // private EncryptionService encryptionService;
 
     // Create note with encrypted password
     public Note createNote(Note note) {
-        String encryptedPassword = encryptionService.encrypt(note.getPassword());
+        // String encryptedPassword = encryptionService.encrypt(note.getPassword());
+        String encryptedPassword = note.getPassword();
         note.setPassword(encryptedPassword);
         return noteRepo.save(note);
     }
@@ -38,13 +39,15 @@ public class NoteService {
     // Get decrypted password (only when needed)
     public String getDecryptedPassword(Long noteId) {
         Note note = getEncryptedNote(noteId);
-        return encryptionService.decrypt(note.getPassword());
+        // return encryptionService.decrypt(note.getPassword());
+        return note.getPassword();
     }
 
     // Update note with password encryption
     public Note updateNote(Note note) {
         if (note.getPassword() != null) {
-            String encryptedPassword = encryptionService.encrypt(note.getPassword());
+            // String encryptedPassword = encryptionService.encrypt(note.getPassword());
+            String encryptedPassword = note.getPassword();
             note.setPassword(encryptedPassword);
         }
         return noteRepo.save(note);

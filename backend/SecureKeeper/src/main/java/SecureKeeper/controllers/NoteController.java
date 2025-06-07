@@ -21,7 +21,6 @@ import SecureKeeper.models.User;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.repo.UserRepo;
-import SecureKeeper.service.EncryptionService;
 import SecureKeeper.service.NoteService;
 import jakarta.validation.Valid;
 
@@ -53,8 +52,8 @@ public class NoteController {
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired
-    private EncryptionService encryptionService;
+    // @Autowired
+    // private EncryptionService encryptionService;
 
     @PostMapping
     public NoteDTO createNote(@Valid @RequestBody NoteDTO noteDTO) {
@@ -73,8 +72,9 @@ public class NoteController {
                 sanitizeInput(noteDTO.title()),
                 sanitizeInput(noteDTO.username()),
                 sanitizeEmail(noteDTO.email()),
-                // encryption
-                encryptionService.encrypt(sanitizeInput(noteDTO.password())),
+                // TODO: encryption
+                // encryptionService.encrypt(sanitizeInput(noteDTO.password())),
+                sanitizeInput(noteDTO.password()),
                 noteDTO.folderId()), 
             folder
         );
@@ -117,14 +117,15 @@ public class NoteController {
             throw new RuntimeException("You are not allowed to access this note");
         }
         
-        String decryptedPassword = encryptionService.decrypt(note.getPassword());
+        // String decryptedPassword = encryptionService.decrypt(note.getPassword());
         
         return new NoteDTO(
             note.getId(),
             note.getTitle(),
             note.getUsername(),
             note.getEmail(),
-            decryptedPassword, // Return decrypted password
+            // decryptedPassword, // TODO: Return decrypted password
+            note.getPassword(),
             note.getFolder().getId()
         );
     }
@@ -159,7 +160,7 @@ public class NoteController {
             updateDTO.title() != null ? sanitizeInput(updateDTO.title()) : existingNote.getTitle(),
             updateDTO.username() != null ? sanitizeInput(updateDTO.username()) : existingNote.getUsername(),
             updateDTO.email() != null ? sanitizeEmail(updateDTO.email()) : existingNote.getEmail(),
-            updateDTO.password() != null ? encryptionService.encrypt(sanitizeInput(updateDTO.password())) : existingNote.getPassword()
+            updateDTO.password() != null ? sanitizeInput(updateDTO.password()) : existingNote.getPassword()
         );
 
         Note updatedNote = noteRepo.save(existingNote);
