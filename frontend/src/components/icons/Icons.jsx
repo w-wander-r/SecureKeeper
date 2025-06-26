@@ -21,7 +21,7 @@ export const LogoIcon = () => {
         fill="white"
       />
     </svg>
-  )
+  );
 };
 
 export const LoginIcon = () => {
