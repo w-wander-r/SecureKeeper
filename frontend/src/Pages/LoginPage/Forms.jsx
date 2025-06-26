@@ -3,8 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import "./_login.scss";
-// Module not found: Error: Can't resolve '../icons/Icons' in '\src\Pages\LoginPage'
-// import { LoginIcon, NewAccIcon } from "../icons/Icons";
+import { LoginIcon, NewAccIcon } from '../../components/icons/Icons';
 import useInput from "../../components/Hooks/Validation";
 
 export function SignInForm({ onSwitch }) {
@@ -46,7 +45,6 @@ export function SignInForm({ onSwitch }) {
           value={username.value}
           type="text"
           className="auth-container__input"
-          minLength="8"
           maxLength="16"
           required
         />
@@ -75,7 +73,6 @@ export function SignInForm({ onSwitch }) {
           onInput={(e) => setCounter(e.target.value.length)}
           type="password"
           className="auth-container__input"
-          minLength="8"
           maxLength="20"
           required
         />
@@ -106,7 +103,7 @@ export function SignInForm({ onSwitch }) {
         className="auth-container__account-signin"
         onClick={onSwitch}
       >
-        {/* <LoginIcon /> */}
+        <LoginIcon />
         Already have an account?
       </button>
     </>
@@ -213,7 +210,7 @@ export function RegisterForm({ onSwitch }) {
         className="auth-container__account-signin"
         onClick={onSwitch}
       >
-        {/* <NewAccIcon /> */}
+        <NewAccIcon />
         Don't have an account?
       </button>
     </>
