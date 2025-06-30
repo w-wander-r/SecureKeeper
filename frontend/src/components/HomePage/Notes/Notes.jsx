@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './_notes.scss';
-import { TipIcon } from '../../icons/Icons';
+import { TipIcon, PlusIcon } from '../../icons/Icons';
 
 const Notes = ({ notes }) => {
   return (
@@ -30,6 +30,10 @@ const Notes = ({ notes }) => {
           </div>
         </li>
       ))}
+
+      <li className='notes__list-item notes__list-item--new'>
+        <PlusIcon/>
+      </li>
     </ul>
   );
 }

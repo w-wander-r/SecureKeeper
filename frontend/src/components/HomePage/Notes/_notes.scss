@@ -12,6 +12,12 @@
     border-radius: 10px;
     background-color: rgba(29, 37, 67, 1);
     padding: 15px;
+    
+    &--new {
+      display: flex;
+      align-items: center;
+      place-content: center;
+    }
 
     &__title {
       display: flex;
@@ -23,6 +29,11 @@
       font-size: 16px;
 
       margin-bottom: 30px;
+    }
+
+    cursor: pointer;
+    &:hover {
+      background: rgba(38, 49, 86, 0.8);
     }
   }
 }
