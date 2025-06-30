@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 
 import './_homePage.scss';
 import { LogoIcon } from '../../components/icons/Icons';
@@ -9,10 +10,10 @@ const folders = ["Work", "Personal", "Projects"];
 
 const note1 = {
   id: 1,
-  title: "Goyda",
-  email: "hitler1488@gmail.com",
-  username: "Hitler",
-  password: "1488_!#@SSwaStiKA"
+  title: "Project z",
+  email: "projectz@gmail.com",
+  username: "ProjectZ",
+  password: "X_!#@SSwaStiKA"
 }
 
 const note2 = {
@@ -26,6 +27,8 @@ const note2 = {
 const notes = [note1, note2];
 
 const HomePage = () => {
+  const [activeIndex, setActiveIndex] = useState(null);
+
   return (
     <div className="home-page">
       <header className="header">
@@ -43,7 +46,12 @@ const HomePage = () => {
 
       <aside className="aside">
         <LogoIcon/>
-        <FolderList folders={folders} activeIndex={0} onSelect={() => {}} />
+        <FolderList 
+          folders={folders} 
+          activeIndex={activeIndex} 
+          onSelect={(index) => setActiveIndex(index)} 
+        />
+        
       </aside>
 
       <main className="main">

@@ -71,3 +71,16 @@ export const TipIcon = () => {
     </svg>
   );
 };
+
+export const PlusIcon = () => {
+  return (
+    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="25" fill="#CCCCCC" fill-opacity="0.08"/>
+      <rect x="22.5" y="15" width="5" height="20" rx="2.5" fill="#1D2543"/>
+      <rect x="23" y="15.5" width="4" height="19" rx="2" stroke="#CCCCCC" stroke-opacity="0.25"/>
+      <rect x="35" y="22.5" width="5" height="20" rx="2.5" transform="rotate(90 35 22.5)" fill="#1D2543"/>
+      <rect x="34.5" y="23" width="4" height="19" rx="2" transform="rotate(90 34.5 23)" stroke="#CCCCCC" stroke-opacity="0.25"/>
+      <rect x="23.5" y="22" width="3" height="6" fill="#1D2543"/>
+    </svg>
+  );
+}

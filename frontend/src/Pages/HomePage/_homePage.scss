@@ -48,6 +48,7 @@
     width: 70px;
 
     &-item {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -58,6 +59,25 @@
 
       span {
         margin-top: 5px;
+      }
+
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &.active::before {
+        content: '';
+        position: absolute;
+        width: 7px;
+        height: 40px;
+        top: 50%;
+        left: -1rem;
+        transform: translateY(-50%);
+        background-color: rgba(32, 130, 50, 1);
+        border-radius: 0px 5px 5px 0px;
       }
     }
   }
