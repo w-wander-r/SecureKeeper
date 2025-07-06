@@ -1,6 +1,8 @@
 package SecureKeeper.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +116,10 @@ public class UserController {
         user.setPassword(userDTO.getPassword());
 
         try {
-            return ResponseEntity.ok(service.verify(user));
+            String token = service.verify(user);
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }

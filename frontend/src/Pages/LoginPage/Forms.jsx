@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import "./_login.scss";
 import { LoginIcon, NewAccIcon } from '../../components/icons/Icons';
@@ -12,6 +13,7 @@ export function SignInForm({ onSwitch }) {
   const [counter, setCounter] = useState(0);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const isDisabled = !username.inputValid || !password.inputValid || isLoading;
   
   const handleSubmit = async (e) => {
@@ -25,11 +27,23 @@ export function SignInForm({ onSwitch }) {
         password: password.value
       });
       
-      console.log('Login successful:', response.data);
-      // Handle successful login (store token, redirect, etc.)
+      // Store the received token in localStorage
+      localStorage.setItem('token', response.data.token);
+      
+      // Redirect to home page
+      navigate('/home');
+      
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Login failed');
-      console.error('Login error:', err);
+      const errorMessage = err.response?.data?.message || 
+                         err.response?.data || 
+                         err.message || 
+                         'Login failed. Please try again.';
+      setError(errorMessage);
+      
+      // Clear password field on error
+      // password.setValue('');
+      // password.setIsDirty(false);
+      setCounter(0);
     } finally {
       setIsLoading(false);
     }
@@ -67,10 +81,12 @@ export function SignInForm({ onSwitch }) {
           </span>
         </label>
         <input
-          onChange={(e) => password.onChange(e)}
+          onChange={(e) => {
+            password.onChange(e);
+            setCounter(e.target.value.length);
+          }}
           onBlur={(e) => password.onBlur(e)}
           value={password.value}
-          onInput={(e) => setCounter(e.target.value.length)}
           type="password"
           className="auth-container__input"
           maxLength="20"
@@ -85,7 +101,7 @@ export function SignInForm({ onSwitch }) {
             ))}
         </div>
 
-        {error && <div className="auth-container__error">{error}</div>}
+        {error && <div className="auth-container__error auth-container__error--main">{error}</div>}
 
         <button
           disabled={isDisabled}
@@ -116,6 +132,7 @@ export function RegisterForm({ onSwitch }) {
   const [counter, setCounter] = useState(0);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const isDisabled = !username.inputValid || !password.inputValid || isLoading;
 
   const handleSubmit = async (e) => {
@@ -129,12 +146,17 @@ export function RegisterForm({ onSwitch }) {
         password: password.value
       });
       
-      console.log('Registration successful:', response.data);
-      // Handle successful registration (redirect to login, show success message, etc.)
-      onSwitch(); // Optionally switch to login form after successful registration
+      setSuccess(true);
+      // Clear form on success
+      // username.setValue('');
+      // password.setValue('');
+      setCounter(0);
     } catch (err) {
       setError(err.response?.data?.message || err.response?.data || err.message || 'Registration failed');
-      console.error('Registration error:', err);
+      // Clear password field on error
+      // password.setValue('');
+      // password.setIsDirty(false);
+      setCounter(0);
     } finally {
       setIsLoading(false);
     }
@@ -143,6 +165,12 @@ export function RegisterForm({ onSwitch }) {
   return (
     <>
       <form className="auth-container__form" onSubmit={handleSubmit}>
+        {success && (
+          <div className="auth-container__success">
+            Registration successful! Redirecting to login...
+          </div>
+        )}
+        
         <label className="auth-container__label">Username</label>
         <input
           onChange={(e) => username.onChange(e)}
@@ -173,10 +201,12 @@ export function RegisterForm({ onSwitch }) {
           </span>
         </label>
         <input
-          onChange={(e) => password.onChange(e)}
+          onChange={(e) => {
+            password.onChange(e);
+            setCounter(e.target.value.length);
+          }}
           onBlur={(e) => password.onBlur(e)}
           value={password.value}
-          onInput={(e) => setCounter(e.target.value.length)}
           type="password"
           className="auth-container__input"
           minLength="8"
@@ -192,7 +222,7 @@ export function RegisterForm({ onSwitch }) {
             ))}
         </div>
 
-        {error && <div className="auth-container__error">{error}</div>}
+        {error && <div className="auth-container__error auth-container__error--main">{error}</div>}
 
         <button
           disabled={isDisabled}
