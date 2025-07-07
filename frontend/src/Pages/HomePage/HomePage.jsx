@@ -5,6 +5,7 @@ import './_homePage.scss';
 import { LogoIcon } from '../../components/icons/Icons';
 import FolderList from '../../components/HomePage/Folders/FolderList'
 import Notes from '../../components/HomePage/Notes/Notes';
+import { useNavigate } from 'react-router-dom';
 
 const folders = ["Work", "Personal", "Projects"];
 
@@ -28,6 +29,12 @@ const notes = [note1, note2];
 
 const HomePage = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
 
   return (
     <div className="home-page">
@@ -41,7 +48,7 @@ const HomePage = () => {
           </ul>
         </nav>
 
-        <button className="logout">Log out</button>
+        <button className="logout" onClick={handleLogout}>Log out</button>
       </header>
 
       <aside className="aside">
