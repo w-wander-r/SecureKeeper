@@ -34,7 +34,7 @@ public class SecurityConfig {
         return http
             // .csrf(customizer -> customizer.disable()) down bellow with method reference
             .csrf(AbstractHttpConfigurer::disable)
-            // every request shold be authenticated except register and login page
+            // every request should be authenticated except register and login page
             .authorizeHttpRequests(request -> request
                 .requestMatchers("/register", "/login")
                 .permitAll()
@@ -50,7 +50,7 @@ public class SecurityConfig {
             .build();
     }
 
-    // fething data from db
+    // fetching data from db
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
