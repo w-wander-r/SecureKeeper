@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -135,6 +134,20 @@ export function RegisterForm({ onSwitch }) {
   const [success, setSuccess] = useState(false);
   const isDisabled = !username.inputValid || !password.inputValid || isLoading;
 
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        onSwitch(); // Switch back to login form
+        setSuccess(false); // Reset success state
+        username.setValue(''); // Clear username
+        password.setValue(''); // Clear password
+        setCounter(0); // Reset counter
+      }, 2000); // Wait 2 seconds before redirecting
+      
+      return () => clearTimeout(timer);
+    }
+  }, [success, onSwitch, username, password]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -147,15 +160,9 @@ export function RegisterForm({ onSwitch }) {
       });
       
       setSuccess(true);
-      // Clear form on success
-      // username.setValue('');
-      // password.setValue('');
-      setCounter(0);
     } catch (err) {
       setError(err.response?.data?.message || err.response?.data || err.message || 'Registration failed');
-      // Clear password field on error
-      // password.setValue('');
-      // password.setIsDirty(false);
+      password.setValue('');
       setCounter(0);
     } finally {
       setIsLoading(false);
