@@ -2,6 +2,7 @@ package SecureKeeper.controllers;
 
 import java.util.List;
 
+import SecureKeeper.service.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,13 +26,13 @@ import SecureKeeper.service.NoteService;
 import jakarta.validation.Valid;
 
 // TODO: doc for NoteController, NoteService, NoteDTO, NoteUpdateDTO
-// TODO: encryption for note password: there should be encryption service first
+
 /**
  * REST controller for managing notes in the SecureKeeper application.
  * Provides endpoints for creating, retrieving, updating, and deleting notes.
  * All operations are secured and require authentication, with checks to ensure
  * users can only access their own notes.
- * 
+ *
  * @see NoteService
  * @see NoteDTO
  * @see NoteUpdateDTO
@@ -52,81 +53,75 @@ public class NoteController {
     @Autowired
     private UserRepo userRepo;
 
-    // @Autowired
-    // private EncryptionService encryptionService;
+    @Autowired
+    private EncryptionService encryptionService;
 
     @PostMapping
-    public NoteDTO createNote(@Valid @RequestBody NoteDTO noteDTO) {
+    public NoteDTO createNote(@Valid @RequestBody NoteDTO noteDTO) throws Exception {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
-        
+
         Folder folder = folderRepo.findById(noteDTO.folderId()).orElseThrow(() -> new RuntimeException("Folder not found"));
-        
+
         if (!folder.getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You are not allowed to access this path");
         }
 
         Note note = NoteDTO.toEntity(
-            new NoteDTO(
-                noteDTO.id(),
-                sanitizeInput(noteDTO.title()),
-                sanitizeInput(noteDTO.username()),
-                sanitizeEmail(noteDTO.email()),
-                // TODO: encryption
-                // encryptionService.encrypt(sanitizeInput(noteDTO.password())),
-                sanitizeInput(noteDTO.password()),
-                noteDTO.folderId()), 
-            folder
+                new NoteDTO(
+                    noteDTO.id(),
+                    sanitizeInput(noteDTO.title()),
+                    sanitizeInput(noteDTO.username()),
+                    sanitizeEmail(noteDTO.email()),
+                    encryptionService.encrypt(sanitizeInput(noteDTO.password())),
+                    noteDTO.folderId()),
+                folder
         );
 
         Note createdNote = noteService.createNote(note);
         return NoteDTO.fromEntity(createdNote);
     }
 
-    // Endpoint to get all notes associeted with folder
+    // Endpoint to get all notes associated with folder
     @GetMapping("/folder/{folderId}")
     public List<NoteDTO> getAllNotesByFolder(@PathVariable Long folderId) {
-        // Get the currently authenticated user
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
 
         Folder folder = folderRepo.findById(folderId).orElseThrow(() -> new RuntimeException("Folder not found"));
 
-        if (!folder.getUser().getId().equals(currentUser .getId())) {
+        if (!folder.getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You are not allowed to acces this path");
         }
 
         return noteService.getAllNotesByFolder(folder).stream()
-            .map(NoteDTO::fromEntity)
-            .toList();
+                .map(NoteDTO::fromEntity)
+                .toList();
     }
 
     // Endpoint to get a note
     @GetMapping("/{noteId}")
-    public NoteDTO getNoteById(@PathVariable Long noteId) {
-        // Get current user id to check if it match id from url
+    public NoteDTO getNoteById(@PathVariable Long noteId) throws Exception{
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
 
         Note note = noteRepo.findById(noteId).orElse(null);
-        if(note == null) throw new RuntimeException("Note not found");
+        String decryptedPassword = encryptionService.decrypt(note.getPassword());
+        if (note == null) throw new RuntimeException("Note not found");
 
         Folder folder = note.getFolder();
 
-        if(!folder.getUser().getId().equals(currentUser.getId())) {
+        if (!folder.getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You are not allowed to access this note");
         }
-        
-        // String decryptedPassword = encryptionService.decrypt(note.getPassword());
-        
+
         return new NoteDTO(
-            note.getId(),
-            note.getTitle(),
-            note.getUsername(),
-            note.getEmail(),
-            // decryptedPassword, // TODO: Return decrypted password
-            note.getPassword(),
-            note.getFolder().getId()
+                note.getId(),
+                note.getTitle(),
+                note.getUsername(),
+                note.getEmail(),
+                decryptedPassword,
+                note.getFolder().getId()
         );
     }
 
@@ -137,7 +132,7 @@ public class NoteController {
         User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
 
         Note note = noteRepo.findById(noteId).orElseThrow(() -> new RuntimeException("Note not found"));
-        if(!note.getFolder().getUser().getId().equals(currentUser.getId())) {
+        if (!note.getFolder().getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You are not allowed to access this note");
         }
 
@@ -149,18 +144,18 @@ public class NoteController {
     public NoteDTO updateNote(@PathVariable Long noteId, @RequestBody NoteUpdateDTO updateDTO) {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
-        
+
         Note existingNote = noteRepo.findById(noteId).orElseThrow(() -> new RuntimeException("Note not found"));
 
-        if(!existingNote.getFolder().getUser().getId().equals(currentUser.getId())) {
+        if (!existingNote.getFolder().getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You are not allowed to access this note");
         }
 
         existingNote.update(
-            updateDTO.title() != null ? sanitizeInput(updateDTO.title()) : existingNote.getTitle(),
-            updateDTO.username() != null ? sanitizeInput(updateDTO.username()) : existingNote.getUsername(),
-            updateDTO.email() != null ? sanitizeEmail(updateDTO.email()) : existingNote.getEmail(),
-            updateDTO.password() != null ? sanitizeInput(updateDTO.password()) : existingNote.getPassword()
+                updateDTO.title() != null ? sanitizeInput(updateDTO.title()) : existingNote.getTitle(),
+                updateDTO.username() != null ? sanitizeInput(updateDTO.username()) : existingNote.getUsername(),
+                updateDTO.email() != null ? sanitizeEmail(updateDTO.email()) : existingNote.getEmail(),
+                updateDTO.password() != null ? sanitizeInput(updateDTO.password()) : existingNote.getPassword()
         );
 
         Note updatedNote = noteRepo.save(existingNote);
@@ -173,26 +168,31 @@ public class NoteController {
     }
 
     // TODO: same method in FolderController
+
     /**
      * Sanitizes input by removing potentially dangerous characters.
-     * 
+     *
      * @param input The string to sanitize
      * @return Sanitized string with HTML/script tags removed, or null if input was null
      */
     private String sanitizeInput(String input) {
-        if(input == null) { return null; }
+        if (input == null) {
+            return null;
+        }
 
         return input.replaceAll("[<>\"']", "");
     }
 
     /**
      * Sanitizes email input by removing potentially dangerous characters.
-     * 
+     *
      * @param email The email string to sanitize
      * @return Sanitized email string with dangerous characters removed, or null if input was null
      */
     private String sanitizeEmail(String email) {
-        if(email == null) { return null; }
+        if (email == null) {
+            return null;
+        }
 
         return email.replaceAll("[<>\\\"'\\\\\\\\]", "");
     }

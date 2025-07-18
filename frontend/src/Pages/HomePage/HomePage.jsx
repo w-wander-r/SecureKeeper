@@ -2,30 +2,12 @@ import React from 'react';
 import { useState } from 'react';
 
 import './_homePage.scss';
-import { LogoIcon } from '../../components/icons/Icons';
+import { LogoIcon, PlusIcon } from '../../components/icons/Icons';
 import FolderList from '../../components/HomePage/Folders/FolderList'
 import Notes from '../../components/HomePage/Notes/Notes';
 import { useNavigate } from 'react-router-dom';
 
 const folders = ["Work", "Personal", "Projects"];
-
-const note1 = {
-  id: 1,
-  title: "Project z",
-  email: "projectz@gmail.com",
-  username: "ProjectZ",
-  password: "X_!#@SSwaStiKA"
-}
-
-const note2 = {
-  id: 2,
-  title: "Project X",
-  email: "projectx@gmail.com",
-  username: "ProjectX",
-  password: "X_!#@SSwaStiKA"
-}
-
-const notes = [note1, note2];
 
 const HomePage = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -62,7 +44,9 @@ const HomePage = () => {
       </aside>
 
       <main className="main">
-        <Notes notes={notes} />
+        <li className='notes__list-item notes__list-item--new'>
+          <PlusIcon/>
+        </li>
       </main>
     </div>
   );
