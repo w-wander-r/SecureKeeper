@@ -44,6 +44,7 @@ public class NoteService {
     }
 
     // Update note with password encryption
+    // TODO: fix bug (encrypt before storing in db)
     public Note updateNote(Note note) {
         if (note.getPassword() != null) {
             // String encryptedPassword = encryptionService.encrypt(note.getPassword());

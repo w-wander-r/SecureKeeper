@@ -138,15 +138,11 @@ export function RegisterForm({ onSwitch }) {
     if (success) {
       const timer = setTimeout(() => {
         onSwitch(); // Switch back to login form
-        setSuccess(false); // Reset success state
-        username.setValue(''); // Clear username
-        password.setValue(''); // Clear password
-        setCounter(0); // Reset counter
       }, 2000); // Wait 2 seconds before redirecting
       
       return () => clearTimeout(timer);
     }
-  }, [success, onSwitch, username, password]);
+  }, [success, onSwitch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -154,7 +150,7 @@ export function RegisterForm({ onSwitch }) {
     setError(null);
     
     try {
-      const response = await axios.post('http://localhost:8090/register', {
+      await axios.post('http://localhost:8090/register', {
         username: username.value,
         password: password.value
       });
@@ -162,7 +158,7 @@ export function RegisterForm({ onSwitch }) {
       setSuccess(true);
     } catch (err) {
       setError(err.response?.data?.message || err.response?.data || err.message || 'Registration failed');
-      password.setValue('');
+      password.onChange({ target: { value: '' } }); // Clear password field
       setCounter(0);
     } finally {
       setIsLoading(false);

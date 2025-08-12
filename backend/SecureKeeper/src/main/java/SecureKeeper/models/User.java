@@ -19,19 +19,13 @@ import jakarta.persistence.Table;
 public class User {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
     private String username;
     private String password;
 
-    /* 
-      
-     * Second approach: use @OneToMany
-     *  Most likely its best approach for now
-      
-    */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Folder> folders;
