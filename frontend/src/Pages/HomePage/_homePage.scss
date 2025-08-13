@@ -83,6 +83,26 @@
   }
 }
 
+.folder-name-input {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  margin-right: 8px;
+  width: 120px;
+}
+
+.folder-submit-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
 .main {
   grid-area: main;
 }

@@ -31,7 +31,7 @@ import jakarta.validation.Valid;
  * @see UserDTO
  */
 @RestController
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
