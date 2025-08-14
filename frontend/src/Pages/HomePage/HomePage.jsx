@@ -28,15 +28,14 @@ const HomePage = () => {
           'Content-Type': 'application/json'
         }
       });
-      setFolders(response.data);
-      setError(null);
+      setFolders(response.data.map(folder => folder.name));
     } catch (err) {
       console.error('Error fetching folders:', err);
-      setError(err.response?.data?.message || 'Failed to load folders');
       if (err.response?.status === 401) {
         localStorage.removeItem('token');
         navigate('/');
       }
+      setError(err.response?.data?.message || 'Failed to load folders');
     } finally {
       setLoading(false);
     }

@@ -76,6 +76,17 @@ public class FolderController {
             .collect(Collectors.toList());
     }
 
+    @GetMapping
+    public List<FolderDTO> getCurrentUserFolders() {
+        String currUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currUser = userRepo.findByUsername(currUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return folderService.getAllFoldersByUser(currUser).stream()
+                .map(FolderDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
     // Endpoint to get a folder
     @GetMapping("/{folderId}")
     public FolderDTO getFolderById(@PathVariable Long folderId) {
