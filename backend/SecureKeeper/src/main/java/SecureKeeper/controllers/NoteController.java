@@ -2,16 +2,12 @@ package SecureKeeper.controllers;
 
 import java.util.List;
 
+import SecureKeeper.models.*;
 import SecureKeeper.service.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import SecureKeeper.models.Folder;
-import SecureKeeper.models.Note;
-import SecureKeeper.models.NoteDTO;
-import SecureKeeper.models.NoteUpdateDTO;
-import SecureKeeper.models.User;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.NoteRepo;
 import SecureKeeper.repo.UserRepo;
@@ -51,26 +47,25 @@ public class NoteController {
     private EncryptionService encryptionService;
 
     @PostMapping
-    public NoteDTO createNote(@Valid @RequestBody NoteDTO noteDTO) throws Exception {
+    public NoteDTO createNote(@Valid @RequestBody NoteCreationRequest request) throws Exception {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
+        User currentUser = userRepo.findByUsername(currentUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Folder folder = folderRepo.findById(noteDTO.folderId()).orElseThrow(() -> new RuntimeException("Folder not found"));
+        Folder folder = folderRepo.findById(request.folderId())
+                .orElseThrow(() -> new RuntimeException("Folder not found"));
 
         if (!folder.getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You are not allowed to access this path");
         }
 
-        Note note = NoteDTO.toEntity(
-                new NoteDTO(
-                    noteDTO.id(),
-                    sanitizeInput(noteDTO.title()),
-                    sanitizeInput(noteDTO.username()),
-                    sanitizeEmail(noteDTO.email()),
-                    encryptionService.encrypt(sanitizeInput(noteDTO.password())),
-                    noteDTO.folderId()),
-                folder
-        );
+        // Create new Note directly instead of using NoteDTO
+        Note note = new Note();
+        note.setTitle(sanitizeInput(request.title()));
+        note.setUsername(sanitizeInput(request.username()));
+        note.setEmail(sanitizeEmail(request.email()));
+        note.setPassword(encryptionService.encrypt(sanitizeInput(request.password())));
+        note.setFolder(folder);
 
         Note createdNote = noteService.createNote(note);
         return NoteDTO.fromEntity(createdNote);

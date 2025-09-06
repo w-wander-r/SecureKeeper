@@ -23,10 +23,13 @@ const FolderList = ({ folders, activeIndex, onSelect, onCreateFolder }) => {
     <ul className='folder__list'>
       {folders.map((folder, index) => (
         <li
-          key={index}
-          className={`folder__list-item ${index === activeIndex ? "active" : ""}`}
-          onClick={() => onSelect(index)}
-        >
+            key={folder.id}
+            className={`folder__list-item ${index === activeIndex ? "active" : ""}`}
+            onClick={() => {
+              console.log("Selected folder:", folder);
+              onSelect(folder);
+            }}
+         >
           <FolderIcon className='folder-icon' />
           <span className='folder-name'>{folder}</span>
         </li>
