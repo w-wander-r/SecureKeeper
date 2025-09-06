@@ -35,8 +35,6 @@ public class Folder {
     private User user;
     
     // @OneToMany linking individual folder with notes
-    // @JsonIgnore is solving circular reference
-    // TODO change CascadeType.All to CascadeType.REMOVE
     @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Note> notes;

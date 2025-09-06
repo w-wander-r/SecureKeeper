@@ -130,7 +130,7 @@ public class NoteController {
 
     // Endpoint to update note
     @PutMapping("/{noteId}")
-    public NoteDTO updateNote(@PathVariable Long noteId, @RequestBody NoteUpdateDTO updateDTO) {
+    public NoteDTO updateNote(@PathVariable Long noteId, @RequestBody NoteUpdateDTO updateDTO) throws Exception {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepo.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -140,11 +140,15 @@ public class NoteController {
             throw new RuntimeException("You are not allowed to access this note");
         }
 
+        String encryptedPassword = updateDTO.password() != null ?
+                encryptionService.encrypt(sanitizeInput(updateDTO.password())) :
+                existingNote.getPassword();
+
         existingNote.update(
                 updateDTO.title() != null ? sanitizeInput(updateDTO.title()) : existingNote.getTitle(),
                 updateDTO.username() != null ? sanitizeInput(updateDTO.username()) : existingNote.getUsername(),
                 updateDTO.email() != null ? sanitizeEmail(updateDTO.email()) : existingNote.getEmail(),
-                updateDTO.password() != null ? sanitizeInput(updateDTO.password()) : existingNote.getPassword()
+                encryptedPassword
         );
 
         Note updatedNote = noteRepo.save(existingNote);
