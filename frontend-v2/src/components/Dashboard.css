@@ -1,0 +1,539 @@
+/* Dashboard Layout */
+.dashboard {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f5f5f5;
+  }
+  
+  .dashboard-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .logout-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Error Banner */
+  .error-banner {
+    background: #fee;
+    color: #c33;
+    padding: 10px 30px;
+    border-bottom: 1px solid #fcc;
+  }
+  
+  /* Dashboard Content */
+  .dashboard-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 300px;
+    background: white;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-section h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+  }
+  
+  .add-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+  
+  .add-btn:hover {
+    background: #764ba2;
+  }
+  
+  /* Folder List */
+  .folder-list {
+    margin-top: 20px;
+  }
+  
+  .folder-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .folder-item:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+  }
+  
+  .folder-item.selected {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+  }
+  
+  .folder-item.selected .folder-name {
+    color: white;
+  }
+  
+  .folder-info {
+    flex: 1;
+  }
+  
+  .folder-name {
+    font-weight: 500;
+  }
+  
+  .folder-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+  
+  .icon-btn.edit:hover {
+    background: #d1ecf1;
+    color: #0c5460;
+  }
+  
+  .icon-btn.delete:hover {
+    background: #f8d7da;
+    color: #721c24;
+  }
+  
+  .icon-btn.cancel:hover {
+    background: #f1f1f1;
+  }
+  
+  .folder-edit {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .folder-edit-input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+  }
+  
+  .content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .content-header h2 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+  
+  .empty-state h3 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  /* Note List */
+  .empty-notes {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    background: white;
+    border-radius: 8px;
+    border: 2px dashed #ddd;
+  }
+  
+  .note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .note-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+  }
+  
+  .note-header h4 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .delete-note-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    line-height: 1;
+  }
+  
+  .delete-note-btn:hover {
+    color: #f44336;
+  }
+  
+  .note-body {
+    margin-bottom: 15px;
+  }
+  
+  .note-body p {
+    margin: 8px 0;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  .note-body strong {
+    color: #333;
+    margin-right: 8px;
+  }
+  
+  .note-actions {
+    text-align: right;
+  }
+  
+  .view-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+  
+  .view-btn:hover {
+    background: #764ba2;
+  }
+  
+  /* Note Form */
+  .note-form-container {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .note-form-container h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  .password-input-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .password-input-group input {
+    flex: 1;
+  }
+  
+  .toggle-password {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0 12px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .generate-password-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+  
+  .generate-password-btn:hover {
+    background: #218838;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+  }
+  
+  .cancel-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+  }
+  
+  .cancel-btn:hover {
+    background: #5a6268;
+  }
+  
+  /* Note Modal */
+  .note-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .note-modal {
+    background: white;
+    border-radius: 10px;
+    padding: 0;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .modal-header h3 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+  }
+  
+  .close-modal:hover {
+    color: #333;
+  }
+  
+  .modal-body {
+    padding: 30px;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  
+  .detail-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  .detail-row strong {
+    color: #333;
+  }
+  
+  .password-display {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .password-masked {
+    font-family: monospace;
+    letter-spacing: 2px;
+    color: #666;
+  }
+  
+  .copy-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+  
+  .copy-btn:hover {
+    background: #218838;
+  }
+  
+  .copy-success {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    animation: slideIn 0.3s ease-out;
+    z-index: 1001;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Loading */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Empty Messages */
+  .empty-message {
+    color: #666;
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px dashed #ddd;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .dashboard-content {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #ddd;
+      max-height: 300px;
+    }
+    
+    .note-grid {
+      grid-template-columns: 1fr;
+    }
+  }
