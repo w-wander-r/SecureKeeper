@@ -3,12 +3,12 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6c6595 0%, #2a163d 100%);
     padding: 20px;
   }
   
   .auth-card {
-    background: white;
+    background: rgb(0, 0, 0);
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     padding: 40px;
