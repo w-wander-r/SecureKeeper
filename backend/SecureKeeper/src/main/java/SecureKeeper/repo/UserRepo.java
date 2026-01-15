@@ -9,5 +9,6 @@ import SecureKeeper.models.User;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, Long>{
+    // list?
     Optional<User> findByUsername(String username);
 }

@@ -8,11 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 // Each note belong to user folder
 // TODO: hash user password before storing
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "notes")
+@Builder
 public class Note {
 
     @Id
@@ -33,18 +39,6 @@ public class Note {
     @ManyToOne
     @JoinColumn(name = "folder_id", nullable = false)
     private Folder folder;
-
-    // Constructors
-    public Note() {}
-
-    public Note(Long id, String title, String username, String email, String password, Folder folder) {
-        this.id = id;
-        this.title = title;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.folder = folder;
-    }
 
     public void update(String title, String username, String email, String password) {
         if (title != null) this.title = title;

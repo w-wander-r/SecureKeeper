@@ -15,11 +15,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 
 // Each user from `UsersModel` class can create multiple folders
 @Entity
 @Table(name = "folders")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Folder {
 
     @Id
@@ -39,9 +45,6 @@ public class Folder {
     @JsonIgnore
     private List<Note> notes;
 
-    // Constructors
-    public Folder() {}
-    
     public Folder(String name, User user) {
         this.name = name;
         this.user = user;
