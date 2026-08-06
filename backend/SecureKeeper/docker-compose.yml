@@ -1,33 +1,35 @@
 version: '3.8'
 
 services:
-  mysql_db:
-    image: mysql:8.0
+  postgres_db:
+    image: postgres:15-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: "123"
-      MYSQL_DATABASE: secure_keeper_data
+      POSTGRES_USER: wander
+      POSTGRES_PASSWORD: wander
+      POSTGRES_DB: secure_keeper_data
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -p$$MYSQL_ROOT_PASSWORD | grep 'alive'" ]
+      test: ["CMD-SHELL", "pg_isready -U wander -d secure_keeper_data"]
       interval: 5s
-      timeout: 10s
-      retries: 10
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
     ports:
       - "8090:8090"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/secure_keeper_data
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: "123"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/secure_keeper_data
+      SPRING_DATASOURCE_USERNAME: wander
+      SPRING_DATASOURCE_PASSWORD: wander
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       SERVER_PORT: "8090"
     depends_on:
-      mysql_db:
+      postgres_db:
         condition: service_healthy
 
 volumes:
-  mysql_data:
+  postgres_data:
