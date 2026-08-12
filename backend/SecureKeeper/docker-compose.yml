@@ -17,19 +17,30 @@ services:
       timeout: 5s
       retries: 5
 
-  app:
-    build: .
+  redis:
+    image: redis:7-alpine
+    container_name: secure_keeper_cache
     ports:
-      - "8090:8090"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/secure_keeper_data
-      SPRING_DATASOURCE_USERNAME: wander
-      SPRING_DATASOURCE_PASSWORD: wander
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-      SERVER_PORT: "8090"
-    depends_on:
-      postgres_db:
-        condition: service_healthy
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+#  app:
+#    build: .
+#    ports:
+#      - "8090:8090"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/secure_keeper_data
+#      SPRING_DATASOURCE_USERNAME: wander
+#      SPRING_DATASOURCE_PASSWORD: wander
+#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+#      SERVER_PORT: "8090"
+#    depends_on:
+#      postgres_db:
+#        condition: service_healthy
 
 volumes:
   postgres_data:

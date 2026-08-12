@@ -3,8 +3,10 @@ package SecureKeeper.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -31,11 +33,13 @@ import jakarta.validation.Valid;
  * @see UserDTO
  */
 @RestController
+@AllArgsConstructor
 //@CrossOrigin(origins = "*")
 public class UserController {
 
-    @Autowired
     private UserService service;
+
+    private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     /**
      * Registers a new user in the system.
