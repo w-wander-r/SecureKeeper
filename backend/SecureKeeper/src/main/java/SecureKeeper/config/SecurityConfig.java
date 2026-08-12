@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/register", "/login").permitAll()
+                        .requestMatchers("api/auth/register", "api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow pre-flight requests
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Changed to STATELESS

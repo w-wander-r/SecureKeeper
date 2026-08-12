@@ -13,11 +13,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Builder;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
 @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     
     @Id
@@ -31,29 +35,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Folder> folders;
-
-    // Constructors
-    public User() {}
-
-    public User(Long id, String username, String password, List<Folder> folders) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.folders = folders;
-    }
-
-    // Getters and Setters
-    public Long getId() {return id;}
-    public void setId(Long id) {this.id = id;}
-
-    public String getUsername() {return username;}
-    public void setUsername(String username) {this.username = username;}
-    
-    public String getPassword() {return password;}
-    public void setPassword(String password) {this.password = password;}
-
-    public List<Folder> getFolders() {return folders;}
-    public void setFolders(List<Folder> folders) {this.folders = folders;}
 
     @Override
     public String toString() {

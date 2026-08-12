@@ -1,5 +1,7 @@
-package SecureKeeper.models;
+package SecureKeeper.dtos;
 
+import SecureKeeper.models.Folder;
+import SecureKeeper.models.Note;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

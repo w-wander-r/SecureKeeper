@@ -7,124 +7,88 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import SecureKeeper.models.UserDTO;
+import SecureKeeper.dtos.UserDTO;
+import SecureKeeper.dtos.UserResponseDTO;
+import SecureKeeper.mapper.UserMapper;
 import SecureKeeper.models.User;
 import SecureKeeper.service.UserService;
 import jakarta.validation.Valid;
 
-/**
- * Controller handling user authentication operations including registration and login.
- * 
- * <p>Cross-origin requests are allowed for development purposes.</p>
- * 
- * @see UserService
- * @see User
- * @see UserDTO
- */
 @RestController
 @AllArgsConstructor
-//@CrossOrigin(origins = "*")
+@RequestMapping("/api/auth")
 public class UserController {
 
-    private UserService service;
+    private final UserService service;
+    private final UserMapper userMapper;
 
     private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     /**
      * Registers a new user in the system.
-     * 
-     * <p>This endpoint accepts user credentials and creates a new user account.
-     * The password hashed before storage by the UserService.</p>
-     * 
-     * @param userDTO Data Transfer Object containing username and password for registration
-     * @return UserDTO containing the registered user's information (excluding sensitive data)
-     * 
-     * @apiNote Example request body in JSON:
-     * <pre>
-     * {
-     *     "username": "user",
-     *     "password": "password"
-     * }
-     * </pre>
      */
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
-        
+
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
-            
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+
             return ResponseEntity.badRequest().body(errors);
         }
 
         if (service.usernameExists(userDTO.getUsername())) {
             return ResponseEntity
-                .badRequest()
-                .body("Username already exists");
+                    .badRequest()
+                    .body("Username already exists");
         }
-        
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
+
+        // Map DTO to Entity
+        User user = userMapper.toEntity(userDTO);
+
+        // Save user
         User savedUser = service.register(user);
 
-        UserDTO savedUserDTO = new UserDTO();
-        savedUserDTO.setUsername(savedUser.getUsername());
-        savedUserDTO.setPassword(savedUser.getPassword());
+        // Map Entity to ResponseDTO (without sensitive data)
+        UserResponseDTO responseDTO = userMapper.toResponseDTO(savedUser);
 
-        return ResponseEntity.ok(userDTO);
+        logger.info("User registered successfully: " + responseDTO.getUsername());
+
+        return ResponseEntity.ok(responseDTO);
     }
 
     /**
      * Authenticates a user and generates an access token.
-     * 
-     * <p>This endpoint verifies user credentials and returns an authentication token
-     * upon successful verification. The token should be used for subsequent authenticated requests.</p>
-     * 
-     * @param userDTO Data Transfer Object containing username and password for authentication
-     * @return String containing the JWT token or session identifier upon successful authentication
-     * @throws SecurityException if authentication fails due to invalid credentials
-     * @throws RuntimeException if there's an issue during the authentication process
-     * 
-     * @apiNote Example request body:
-     * <pre>
-     * {
-     *     "username": "existingUser",
-     *     "password": "correctPassword"
-     * }
-     * </pre>
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
-            
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+
             return ResponseEntity.badRequest().body(errors);
         }
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
+
+        // Map DTO to Entity for verification
+        User user = userMapper.toEntity(userDTO);
 
         try {
             String token = service.verify(user);
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
+            logger.info("User login successfully");
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
+            logger.info("User login failed");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }

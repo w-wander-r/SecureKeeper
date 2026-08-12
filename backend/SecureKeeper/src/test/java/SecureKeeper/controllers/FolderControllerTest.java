@@ -1,11 +1,8 @@
 package SecureKeeper.controllers;
 
-import SecureKeeper.exceptions.AccessDeniedException;
-import SecureKeeper.exceptions.ResourceNotFoundException;
 import SecureKeeper.models.Folder;
-import SecureKeeper.models.FolderCreationRequest;
-import SecureKeeper.models.FolderDTO;
-import SecureKeeper.models.FolderUpdateDTO;
+import SecureKeeper.dtos.FolderCreationRequest;
+import SecureKeeper.dtos.FolderUpdateDTO;
 import SecureKeeper.models.User;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.UserRepo;

@@ -1,7 +1,7 @@
 package SecureKeeper.controllers;
 
-import SecureKeeper.exceptions.AccessDeniedException;
-import SecureKeeper.exceptions.ResourceNotFoundException;
+import SecureKeeper.dtos.NoteCreationRequest;
+import SecureKeeper.dtos.NoteUpdateDTO;
 import SecureKeeper.models.*;
 import SecureKeeper.repo.FolderRepo;
 import SecureKeeper.repo.NoteRepo;

@@ -1,4 +1,7 @@
-package SecureKeeper.models;
+package SecureKeeper.dtos;
+
+import SecureKeeper.models.Folder;
+import SecureKeeper.models.User;
 
 /**
  * Data Transfer Object (DTO) for folder information.
