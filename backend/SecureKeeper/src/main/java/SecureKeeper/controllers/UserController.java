@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import SecureKeeper.dtos.UserDTO;
 import SecureKeeper.dtos.UserResponseDTO;
-import SecureKeeper.mapper.UserMapper;
-import SecureKeeper.models.User;
 import SecureKeeper.service.UserService;
 import jakarta.validation.Valid;
 
@@ -27,13 +25,9 @@ import jakarta.validation.Valid;
 public class UserController {
 
     private final UserService service;
-    private final UserMapper userMapper;
 
     private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
-    /**
-     * Registers a new user in the system.
-     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
 
@@ -51,23 +45,13 @@ public class UserController {
                     .body("Username already exists");
         }
 
-        // Map DTO to Entity
-        User user = userMapper.toEntity(userDTO);
-
-        // Save user
-        User savedUser = service.register(user);
-
-        // Map Entity to ResponseDTO (without sensitive data)
-        UserResponseDTO responseDTO = userMapper.toResponseDTO(savedUser);
+        UserResponseDTO responseDTO = service.register(userDTO);
 
         logger.info("User registered successfully: " + responseDTO.getUsername());
 
         return ResponseEntity.ok(responseDTO);
     }
 
-    /**
-     * Authenticates a user and generates an access token.
-     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -78,17 +62,14 @@ public class UserController {
             return ResponseEntity.badRequest().body(errors);
         }
 
-        // Map DTO to Entity for verification
-        User user = userMapper.toEntity(userDTO);
-
         try {
-            String token = service.verify(user);
+            String token = service.verify(userDTO);
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
-            logger.info("User login successfully");
+            logger.info("User login successfully: " + userDTO.getUsername());
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
-            logger.info("User login failed");
+            logger.info("User login failed: " + userDTO.getUsername());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }

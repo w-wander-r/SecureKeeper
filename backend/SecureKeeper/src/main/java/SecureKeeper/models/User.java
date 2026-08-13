@@ -17,11 +17,11 @@ import lombok.*;
 
 @Entity
 @Table(name = "users")
-@Builder
+@Builder(builderMethodName = "internalBuilder")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
     
     @Id
@@ -29,7 +29,9 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -38,6 +40,25 @@ public class User {
 
     @Override
     public String toString() {
-        return "UsersModel [id=" + id + ", username=" + username + ", password=" + password + "]";
+        return "UsersModel [id=" + id + ", username=" + username + "]";
+    }
+
+    // Controlled creation ------
+    public static User createNewUser(String username, String rawPassword) {
+        User user = new User();
+        user.username = username;
+        user.password = rawPassword;
+        return user;
+    }
+
+    public static User createForAuthentication(String username, String rawPassword) {
+        User user = new User();
+        user.username = username;
+        user.password = rawPassword;
+        return user;
+    }
+
+    public void updateHashedPassword(String hashedPassword) {
+        this.password = hashedPassword;
     }
 }
