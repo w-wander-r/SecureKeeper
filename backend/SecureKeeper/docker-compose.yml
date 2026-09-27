@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: wander
       POSTGRES_DB: secure_keeper_data
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -28,19 +28,19 @@ services:
       timeout: 5s
       retries: 5
 
-#  app:
-#    build: .
-#    ports:
-#      - "8090:8090"
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/secure_keeper_data
-#      SPRING_DATASOURCE_USERNAME: wander
-#      SPRING_DATASOURCE_PASSWORD: wander
-#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-#      SERVER_PORT: "8090"
-#    depends_on:
-#      postgres_db:
-#        condition: service_healthy
+  app:
+    build: .
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/secure_keeper_data
+      SPRING_DATASOURCE_USERNAME: wander
+      SPRING_DATASOURCE_PASSWORD: wander
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SERVER_PORT: "8090"
+    depends_on:
+      postgres_db:
+        condition: service_healthy
 
 volumes:
   postgres_data:
